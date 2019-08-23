@@ -17,6 +17,6 @@
 
 ### Funcions utils per a mi
 
-| Utilitat | Funció r2 |
+| Funció r2 | Utilitat |
 | :---     | :---      |
-| Buscar cadenes text a una determinada funció | axff ~str @sym.random2 |
+| axff ~str @sym.random2 | Buscar cadenes text a una determinada funció |
