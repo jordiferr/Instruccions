@@ -19,4 +19,6 @@
 
 | Funció r2 | Utilitat |
 | :---     | :---      |
-| axff ~str @sym.random2 | Buscar cadenes text a una determinada funció |
+| axff ~str | Buscar cadenes text a una determinada funció (un cop col·locats a ella)|
+| /R | Llista de totes les funcions que contenen un ROP |
+| /R pop rdi | Llista funcions que contenen ROP RDI |
