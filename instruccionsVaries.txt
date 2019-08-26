@@ -46,3 +46,10 @@ xsetwacom --set "15" MapToOutput HDMI-2
 xsetwacom --set "16" MapToOutput HDMI-2
 xsetwacom --set "17" MapToOutput HDMI-2
 xsetwacom --set "18" MapToOutput HDMI-2
+
+## Bash
+
+### Capturar pantalla per vídeo (FFMPEG)
+
+ffmpeg -y -f alsa -ac 2 -i default -acodec pcm_s16le -f x11grab -framerate 30 -video_size 1920x1080 -i :0.0+0,0 -c:v libx264 -pix_fmt yuv420p -qp 0 -preset ultrafast output.mkv
+(i recordar activar el dispositiu de captura de so a la icona del costat del rellotge - Monitor de Audio intern Estèreo analògic- )
