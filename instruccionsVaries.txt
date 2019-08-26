@@ -22,3 +22,13 @@
 | axff ~str | Buscar cadenes text a una determinada funció (un cop col·locats a ella)|
 | /R | Llista de totes les funcions que contenen un ROP |
 | /R pop rdi | Llista funcions que contenen ROP RDI |
+
+
+## Python3
+
+### Scipy
+
+Per utilitzar les constants físiques:
+
+from scipy.constants import physical_constants as pc
+pc["electron mass"]
