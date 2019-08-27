@@ -38,7 +38,7 @@ pc["electron mass"]
 
 ## Wacom
 
-Per a utilitzar la tarja Wacom a una pantalla (quan n'hi ha 2 d'instal·lades)
+Per a utilitzar la tarja Wacom a una pantalla (quan n'hi ha 2 d'instal·lades).
 
 xrandr --listactive monitors
 xsetwacom --list devices	(Apuntar el ID)
