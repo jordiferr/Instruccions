@@ -68,3 +68,8 @@ curl -s emailrep.io/<EMAIL> | jq
 #### Informació IP
 
 curl -s ipinfo.io/<IP> | jq
+
+
+### QEmu
+
+qemu-system-x86_64 -boot d -cdrom <imatge o /dev/cdrom> -m 512
