@@ -73,3 +73,82 @@ curl -s ipinfo.io/<IP> | jq
 ### QEmu
 
 qemu-system-x86_64 -boot d -cdrom <imatge o /dev/cdrom> -m 512
+
+### Squid
+
+(https://wiki.squid-cache.org/ConfigExamples/Intercept/SslBumpExplicit)
+
+./configure --with-default-user=proxy --with-openssl --enable-ssl-crtd
+make
+sudo make install
+
+sudo su
+updatedb
+vim /etc/ssl/openssl.cnf
+(Afegir les següents línies al final)
+```
+[ v3_ca ]
+
+keyUsage = cRLSign, keyCertSign
+```
+mkdir /usr/local/squid/etc/ssl_cert -p
+chown proxy:proxy /usr/local/squid/etc/ssl_cert -R
+chmod 700 /usr/local/squid/etc/ssl_cert -R
+cd /usr/local/squid/etc/ssl_cert
+
+----
+```
+Opció 1 (openssl)
+
+openssl req -new -newkey rsa:2048 -sha256 -days 365 -nodes -x509 -extensions v3_ca -keyout myCA.pem -out myCA.pem
+(Entrar dades:
+ US
+ Washington
+ Washington
+ National Security Agency
+ Unit 8200
+ mamut.localhost
+ email@localhost
+)
+openssl x509 -in myCA.pem -outform DER -out myCA.der
+
+----
+Opció 2 (certool)
+
+certtool --generate-privkey --outfile ca-key.pem
+certtool --generate-self-signed --load-privkey ca-key.pem --outfile myCA.pem
+
+----
+
+(Depenent de com s'hagi configurat a la instalació (--with-openssl o --with-gnutls) utilitzarem un o altre)
+```
+
+Triem openssl (el més extès)
+
+openssl req -new -newkey rsa:2048 -sha256 -days 365 -nodes -x509 -extensions v3_ca -keyout myCA.pem -out myCA.pem
+
+openssl x509 -in myCA.pem -outform DER -out myCA.der
+
+cp myCA.der /home/user/Downloads/
+
+/usr/local/squid/libexec/security_file_certgen -c -s /usr/local/squid/var/logs/ssl_db -M 4MB
+chown proxy:proxy /usr/local/squid/var/logs/ssl_db -R
+
+vim /usr/local/squid/etc/squid.conf
+(Afegir les següents línies)
+
+```
+acl step1 at_step SslBump1
+ssl_bump peek step1
+ssl_bump bump all
+
+http_port 3128 ssl-bump cert=/usr/local/squid/etc/ssl_cert/myCA.pem generate-host-certificates=on dynamic_cert_mem_cache_size=4MB 
+sslcrtd_program /usr/local/squid/libexec/security_file_certgen -s /usr/local/squid/var/logs/ssl_db -M 4MB
+
+cache_dir ufs /usr/local/squid/var/cache/squid 1000 16 256 # 1GB as Cache
+```
+
+chown -R proxy:proxy /usr/local/squid -R
+/usr/local/squid/sbin/squid -z
+
+/usr/local/squid/sbin/squid -d 10
