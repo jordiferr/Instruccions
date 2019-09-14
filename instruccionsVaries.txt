@@ -77,6 +77,7 @@ qemu-system-x86_64 -boot d -cdrom <imatge o /dev/cdrom> -m 512
 ### Squid
 
 (https://wiki.squid-cache.org/ConfigExamples/Intercept/SslBumpExplicit)
+(https://techexpert.tips/squid/install-squid-with-https-ssl-decryption-ubuntu-linux/)
 
 ./configure --with-default-user=proxy --with-openssl --enable-ssl-crtd
 make
