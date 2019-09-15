@@ -6,7 +6,7 @@
 
 | Què fa? | Funció |
 | :---    | :---   |
-| Ajuntar múltiples pdf:| qpdf --empty PDF_1.pdf PDF_2.pdf ... PDF_N.pdf -- FINAL.pdf |
+| Ajuntar múltiples pdf:| qpdf --empty --pages PDF_1.pdf PDF_2.pdf ... PDF_N.pdf -- FINAL.pdf |
 | Extreure pàgines d'un pdf: | qpdf --empty --pages INPUT.pdf nºinici-nºfinal -- OUTPUT.pdf |
 | Eliminar Streams (util per eliminar codi no desitjat) | qpdf --object-streams=disable -qdf INPUT.pdf OUTPUT.pdf |
 | linearitzar PDF: | qpdf --linearize INPUT.pdf OUTPUT.pdf |
