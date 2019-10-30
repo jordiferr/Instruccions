@@ -153,3 +153,16 @@ chown -R proxy:proxy /usr/local/squid -R
 /usr/local/squid/sbin/squid -z
 
 /usr/local/squid/sbin/squid -d 10
+
+sudo /usr/local/squid/sbin/./squid
+
+
+## OpenSSL
+
+### Extreure claus i certificats
+
+| Què fa? | Funció |
+| :---    | :---   |
+| Extreure clau privada | openssl pkcs12 -in arxiu.pfx -nocerts -out clauPrivada.pem |
+| Extreure certificat | openssl pkcs12 -in arxiu.pfx -clcerts -nokeys -out certificat.pem |
+| Eliminar contrassenya de clau privada | openssl rsa -in clauPrivada.pem -out clauSensecontrassenya.pem |
