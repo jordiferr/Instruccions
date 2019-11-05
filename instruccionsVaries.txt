@@ -23,6 +23,11 @@
 | /R | Llista de totes les funcions que contenen un ROP |
 | /R pop rdi | Llista funcions que contenen ROP RDI |
 
+## PostgreSQL
+
+### Copies de seguretat
+
+Accedim amb `sudo su - postgres` i després utilitem `pg_dumpall > <fitxer>`
 
 ## Python3
 
