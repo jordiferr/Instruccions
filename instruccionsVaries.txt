@@ -31,13 +31,6 @@ Accedim amb `sudo su - postgres` i després utilitem `pg_dumpall > <fitxer>`
 
 ## Python3
 
-### Scipy
-
-Per utilitzar les constants físiques:
-
-from scipy.constants import physical_constants as pc
-pc["electron mass"]
-
 
 # Instruccions aleatòries
 
