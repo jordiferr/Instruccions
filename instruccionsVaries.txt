@@ -12,8 +12,11 @@
 | linearitzar PDF: | qpdf --linearize INPUT.pdf OUTPUT.pdf |
 | Reparar PDF | qpdf INPUT.pdf OUTPUT.pdf |
 
+### Okular
 
-## Radare2
+Útil per a passar de DJVU a PDF
+
+# Radare2
 
 ### Funcions utils per a mi
 
@@ -23,18 +26,18 @@
 | /R | Llista de totes les funcions que contenen un ROP |
 | /R pop rdi | Llista funcions que contenen ROP RDI |
 
-## PostgreSQL
+# PostgreSQL
 
 ### Copies de seguretat
 
 Accedim amb `sudo su - postgres` i després utilitem `pg_dumpall > <fitxer>`
 
-## Python3
+# Python3
 
 
-# Instruccions aleatòries
+## Instruccions aleatòries
 
-## Wacom
+### Wacom
 
 Per a utilitzar la tarja Wacom a una pantalla (quan n'hi ha 2 d'instal·lades).
 
@@ -45,14 +48,14 @@ xsetwacom --set "16" MapToOutput HDMI-2
 xsetwacom --set "17" MapToOutput HDMI-2
 xsetwacom --set "18" MapToOutput HDMI-2
 
-## Bash
+### Bash
 
-### Capturar pantalla per vídeo (FFMPEG)
+#### Capturar pantalla per vídeo (FFMPEG)
 
 ffmpeg -y -f alsa -ac 2 -i default -acodec pcm_s16le -f x11grab -framerate 30 -video_size 1920x1080 -i :0.0+0,0 -c:v libx264 -pix_fmt yuv420p -qp 0 -preset ultrafast output.mkv
 (i recordar activar el dispositiu de captura de so a la icona del costat del rellotge - Monitor de Audio intern Estèreo analògic- )
 
-### Canviar permisos
+#### Canviar permisos
 
 find <ruta o carpeta> -type f -exec chmod u+rw {} \;
 find <ruta o carpeta> -type f -exec chmod go-rw {} \;
@@ -155,9 +158,9 @@ chown -R proxy:proxy /usr/local/squid -R
 sudo /usr/local/squid/sbin/./squid
 
 
-## OpenSSL
+### OpenSSL
 
-### Extreure claus i certificats
+#### Extreure claus i certificats
 
 | Què fa? | Funció |
 | :---    | :---   |
