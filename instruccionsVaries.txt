@@ -50,6 +50,12 @@ xsetwacom --set "18" MapToOutput HDMI-2
 
 ### Bash
 
+#### Reanomenar fitxers en massa
+
+Instal·lar el paquet `mmv`
+
+mmv Un\ nom\ de\ fitxer\ acanviar\*.extensio Un\ nom\ de\ fitxer\ acanviar\#1.mp4
+
 #### Capturar pantalla per vídeo (FFMPEG)
 
 ffmpeg -y -f alsa -ac 2 -i default -acodec pcm_s16le -f x11grab -framerate 30 -video_size 1920x1080 -i :0.0+0,0 -c:v libx264 -pix_fmt yuv420p -qp 0 -preset ultrafast output.mkv
@@ -171,3 +177,9 @@ sudo /usr/local/squid/sbin/./squid
 | Extreure clau privada | openssl pkcs12 -in arxiu.pfx -nocerts -out clauPrivada.pem |
 | Extreure certificat | openssl pkcs12 -in arxiu.pfx -clcerts -nokeys -out certificat.pem |
 | Eliminar contrassenya de clau privada | openssl rsa -in clauPrivada.pem -out clauSensecontrassenya.pem |
+
+### Vim comandes variades
+
+| Què fa? | Comanda |
+| :---    | :---    |
+| Moure la última paraula al començar de la línia | :%s/^\(.\+\)\s\+\(\S\+\)$/\2 \1/ |
