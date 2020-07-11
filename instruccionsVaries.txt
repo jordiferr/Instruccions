@@ -65,6 +65,15 @@ ffmpeg -y -f alsa -ac 2 -i default -acodec pcm_s16le -f x11grab -framerate 30 -v
 
 ffmpeg -f alsa -ac 2 -i default -acodec pcm_s16le <nom del fitxer a guardar>.wav
 
+#### Crear camera video /dev/video0 falsa ( fake /dev/video0 )
+
+sudo modprobe v4l2loopback
+
+v4l2-ctl --list-devices
+
+( cara7.png es una imatge que es mostrarà com si fos la cara a mostrar. Molt útil per a pimeyes.com )
+ffmpeg -stream_loop -1 -re -i cara7.png -f v4l2 -vcodec rawvideo -pix_fmt yuv420p /dev/video0
+
 #### Canviar permisos
 
 find <ruta o carpeta> -type f -exec chmod u+rw {} \;
