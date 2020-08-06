@@ -1,0 +1,16 @@
+# PostgreSQL
+
+## Acces com a ***postgres***
+
+$ sudo su - postgres
+$ psql -U postgres
+
+## Copies de seguretat
+
+$ sudo su - postgres
+$ pg_dumpall > <fitxer>
+
+## Canviar editor de text
+
+Per canviar l'editor de text
+ \setenv PSQL_EDITOR "/usr/bin/vim"

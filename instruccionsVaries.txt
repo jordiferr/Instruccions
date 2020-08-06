@@ -26,12 +26,6 @@
 | /R | Llista de totes les funcions que contenen un ROP |
 | /R pop rdi | Llista funcions que contenen ROP RDI |
 
-# PostgreSQL
-
-### Copies de seguretat
-
-Accedim amb `sudo su - postgres` i després utilitem `pg_dumpall > <fitxer>`
-
 # Python3
 
 
@@ -43,10 +37,10 @@ Per a utilitzar la tarja Wacom a una pantalla (quan n'hi ha 2 d'instal·lades).
 
 xrandr --listactivemonitors
 xsetwacom --list devices	(Apuntar el ID)
-xsetwacom --set "15" MapToOutput HDMI-2
-xsetwacom --set "16" MapToOutput HDMI-2
-xsetwacom --set "17" MapToOutput HDMI-2
-xsetwacom --set "18" MapToOutput HDMI-2
+xsetwacom --set "19" MapToOutput HDMI-2
+xsetwacom --set "20" MapToOutput HDMI-2
+xsetwacom --set "21" MapToOutput HDMI-2
+xsetwacom --set "22" MapToOutput HDMI-2
 
 ### Bash
 
