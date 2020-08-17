@@ -186,3 +186,11 @@ sudo /usr/local/squid/sbin/./squid
 | Què fa? | Comanda |
 | :---    | :---    |
 | Moure la última paraula al començar de la línia | :%s/^\(.\+\)\s\+\(\S\+\)$/\2 \1/ |
+
+
+### Comandes variades
+
+| Comanda | Definició |
+| :---    | :---      |
+| mokutil | Comanda per a llistar les claus i l'estat del Secure Boot (mokutil --sb-state ; mokutil --list-enrolled) |
+| osslsigncode | Comanda per a extreure i signar digitalment alguns fitxers de Windows. Útil per a bypass d'alguns anti-virus |
