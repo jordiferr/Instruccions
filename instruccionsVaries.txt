@@ -161,6 +161,13 @@ http_port 3128 ssl-bump cert=/usr/local/squid/etc/ssl_cert/myCA.pem generate-hos
 sslcrtd_program /usr/local/squid/libexec/security_file_certgen -s /usr/local/squid/var/logs/ssl_db -M 4MB
 
 cache_dir ufs /usr/local/squid/var/cache/squid 1000 16 256 # 1GB as Cache
+
+\# allow all requests
+acl all src 0.0.0.0/0
+http_access allow all
+
+\# Make sure your custom config is befor the <ins>deny all</ins> line
+http_access deny all
 ```
 
 chown -R proxy:proxy /usr/local/squid -R
