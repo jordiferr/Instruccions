@@ -1,5 +1,11 @@
 # Instruccions generals
 
+## APT
+
+Descarregar un paquet per a poder-lo instal·lar quan l'eliminin per qualsevol tonteria:
+
+sudo apt-get install --download-only <nom_paquet>
+
 ## Manipulació PDFs
 
 ### QPDF
@@ -72,6 +78,10 @@ ffmpeg -stream_loop -1 -re -i cara7.png -f v4l2 -vcodec rawvideo -pix_fmt yuv420
 
 find <ruta o carpeta> -type f -exec chmod u+rw {} \;
 find <ruta o carpeta> -type f -exec chmod go-rw {} \;
+
+#### Llegir DOCX al terminal
+
+unzip -p ./foo.docx | sed -e 's/<[^>]\{1,\}>//g;s/<[^[:print:]]\{1,\}//g'
 
 ### Recon
 
