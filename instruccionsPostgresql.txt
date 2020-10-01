@@ -14,3 +14,11 @@ $ pg_dumpall > <fitxer>
 
 Per canviar l'editor de text
  \setenv PSQL_EDITOR "/usr/bin/vim"
+
+## Selecció dades en funció de la data
+
+1. Entrar com a superusuari
+2. \c {BASE de DADES}
+3. CREATE EXTENSION btree_gist({COLUMNA on aplicar el filtre});
+4. CREATE INDEX ON <taula> USING gist({COLUMNA on aplica el filtre});
+5. SELECT <bla, bla> FROM <taula> ORDER BY (SELECT NOW()) <-> {COLUMNA on aplica el filtre};
