@@ -1,0 +1,4 @@
+# Hashcat
+
+.\hashcat.exe --session b_txt -O -a 3 -m 0 .\B.txt -1 ?l?u?d ?1?1?1?1?1?1?1?1
+
