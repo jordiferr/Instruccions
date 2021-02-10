@@ -29,6 +29,7 @@ sudo apt-get install --download-only <nom_paquet\>
 | Funció r2 | Utilitat |
 | :---     | :---      |
 | axff ~str | Buscar cadenes text a una determinada funció (un cop col·locats a ella)|
+| /a bytes | Cercar totes les coincidències que continguin aquells bytes |
 | /R | Llista de totes les funcions que contenen un ROP |
 | /R pop rdi | Llista funcions que contenen ROP RDI |
 
@@ -82,6 +83,10 @@ find <ruta o carpeta\> -type f -exec chmod go-rw {} \;
 #### Llegir DOCX al terminal
 
 unzip -p ./foo.docx | sed -e 's/<[^>]\{1,\}>//g;s/<[^[:print:]]\{1,\}//g'
+
+#### SSH X11 forwarding (veure programes grafics com si fos un altre usuari)
+
+ssh -XY <altre usuari\>@localhost <programa que vols executar\>
 
 #### Comparar hexadecimalment dos fitxers i veure les diferències
 
