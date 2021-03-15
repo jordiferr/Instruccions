@@ -8,7 +8,9 @@ lxd init<br />
 exit
 
 $ lxc image list images : `nom de distribució`<br />
-$ lxc launch images: `nom de la imatge` ( per exemple centos/8 )
+$ lxc launch images: `nom de la imatge` ( per exemple centos/8 )<br />
+$ lxc stop `nom de la imatge`<br />
+$ lxc move `nom de la imatge` `nou nom`<br />
 
 $ lxc list<br />
 $ lxc exec <nom de la imatge descarregada> bash
@@ -29,18 +31,19 @@ Executem la imatge i configurem el ssh
 
 <code>
 lxc exec proxy bash<br />
-root@proxy:~# useradd -m root<br />
+root@:~# useradd -m root<br />
 useradd: user 'root' already exists<br />
-root@proxy:~# useradd -m master<br />
-root@proxy:~# sh -c 'echo master:passwd | chpasswd'<br />
-root@proxy:~# usermod -a -G lxd,sudo master<br />
-root@proxy:~# usermod -s /bin/bash master<br />
-root@proxy:~# sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config<br />
-root@proxy:~# service ssh restart<br />
-root@proxy:~# export LC_CTYPE=en_US.UTF-8<br />
-root@proxy:~# export LC_ALL=en_US.UTF-8<br />
-root@proxy:~# source ~/.bashrc<br />
-root@proxy:~# exit
+root@:~# useradd -m master<br />
+root@:~# apt-get update ; apt install ssh ; apt install lxd<br />
+root@:~# sh -c 'echo master:passwd | chpasswd'<br />
+root@:~# usermod -a -G lxd,sudo master<br />
+root@:~# usermod -s /bin/bash master<br />
+root@:~# sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config<br />
+root@:~# service ssh restart<br />
+root@:~# export LC_CTYPE=en_US.UTF-8<br />
+root@:~# export LC_ALL=en_US.UTF-8<br />
+root@:~# source ~/.bashrc<br />
+root@:~# exit
 <code />
 
 Entrem mitjançant ssh:

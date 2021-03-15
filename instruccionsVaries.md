@@ -57,6 +57,10 @@ Instal·lar el paquet `mmv`
 
 mmv Un\ nom\ de\ fitxer\ acanviar\*.extensio Un\ nom\ de\ fitxer\ acanviar\#1.mp4
 
+#### Enviar mail per línia de comandes
+
+printf "COS" | mail -s "SUBJECTE" -F <mail\>
+
 #### Capturar pantalla per vídeo (FFMPEG)
 
 ffmpeg -y -f alsa -ac 2 -i default -acodec pcm_s16le -f x11grab -framerate 30 -video_size 1920x1080 -i :0.0+0,0 -c:v libx264 -pix_fmt yuv420p -qp 0 -preset ultrafast output.mkv
