@@ -10,10 +10,24 @@ $ psql -U postgres
 $ sudo su - postgres<br />
 $ pg_dumpall > <fitxer>
 
+## Actualització Database
+
+(Primer realitzar [còpies de seguretat](#Copies-de-seguretat))<br />
+$ sudo pg_ctlcluster 12 main stop<br />
+$ sudo pg_dropcluster 13 main --stop<br />
+$ sudo pg_upgradecluster -v 13 12 main<br />
+$ sudo pg_ctlcluster 13 main start<br />
+
+
 ## Canviar editor de text
 
 Per canviar l'editor de text<br />
 \setenv PSQL_EDITOR "/usr/bin/vim"
+
+## Primers pasos (entrar com **postgres**)
+
+CREATE ROLE < nom_del_usuari /> WITH login; <br />
+CREATE DATABASE < nom_base_de_dades /> WITH OWNER < nom_del_usuari />;
 
 ## Selecció dades en funció de la data
 
