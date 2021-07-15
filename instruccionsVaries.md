@@ -4,7 +4,7 @@
 
 Descarregar un paquet per a poder-lo instal·lar quan l'eliminin per qualsevol tonteria:
 
-sudo apt-get install --download-only <nom_paquet\>
+sudo apt-get install \-\-download-only <nom_paquet\>
 
 ## Manipulació PDFs
 
@@ -12,10 +12,10 @@ sudo apt-get install --download-only <nom_paquet\>
 
 | Què fa? | Funció |
 | :---    | :---   |
-| Ajuntar múltiples pdf:| qpdf --empty --pages PDF_1.pdf PDF_2.pdf ... PDF_N.pdf -- FINAL.pdf |
-| Extreure pàgines d'un pdf: | qpdf --empty --pages INPUT.pdf nºinici-nºfinal -- OUTPUT.pdf |
-| Eliminar Streams (util per eliminar codi no desitjat) | qpdf --object-streams=disable -qdf INPUT.pdf OUTPUT.pdf |
-| linearitzar PDF: | qpdf --linearize INPUT.pdf OUTPUT.pdf |
+| Ajuntar múltiples pdf:| qpdf \-\-empty \-\-pages PDF_1.pdf PDF_2.pdf ... PDF_N.pdf \-\- FINAL.pdf |
+| Extreure pàgines d'un pdf: | qpdf \-\-empty \-\-pages INPUT.pdf nºinici-nºfinal \-\- OUTPUT.pdf |
+| Eliminar Streams (util per eliminar codi no desitjat) | qpdf \-\-object-streams=disable -qdf INPUT.pdf OUTPUT.pdf |
+| linearitzar PDF: | qpdf \-\-linearize INPUT.pdf OUTPUT.pdf |
 | Reparar PDF | qpdf INPUT.pdf OUTPUT.pdf |
 
 ### Okular
@@ -32,6 +32,7 @@ sudo apt-get install --download-only <nom_paquet\>
 | /a bytes | Cercar totes les coincidències que continguin aquells bytes |
 | /R | Llista de totes les funcions que contenen un ROP |
 | /R pop rdi | Llista funcions que contenen ROP RDI |
+| f~.init_array | Llista els constructors que hi puguin haver |
 
 # Python3
 
@@ -41,12 +42,12 @@ sudo apt-get install --download-only <nom_paquet\>
 
 Per a utilitzar la tarja Wacom a una pantalla (quan n'hi ha 2 d'instal·lades).<br />
 <br />
-xrandr --listactivemonitors<br />
-xsetwacom --list devices	(Apuntar el ID)<br />
-xsetwacom --set "19" MapToOutput HDMI-2<br />
-xsetwacom --set "20" MapToOutput HDMI-2<br />
-xsetwacom --set "21" MapToOutput HDMI-2<br />
-xsetwacom --set "22" MapToOutput HDMI-2<br />
+xrandr \-\-listactivemonitors<br />
+xsetwacom \-\-list devices	(Apuntar el ID)<br />
+xsetwacom \-\-set "19" MapToOutput HDMI-2<br />
+xsetwacom \-\-set "20" MapToOutput HDMI-2<br />
+xsetwacom \-\-set "21" MapToOutput HDMI-2<br />
+xsetwacom \-\-set "22" MapToOutput HDMI-2<br />
 
 # Bash
 
@@ -59,29 +60,6 @@ mmv Un\ nom\ de\ fitxer\ acanviar\*.extensio Un\ nom\ de\ fitxer\ acanviar\#1.mp
 #### Enviar mail per línia de comandes
 
 printf "COS" | mail -s "SUBJECTE" -F <mail\>
-
-#### Capturar pantalla per vídeo (FFMPEG)
-
-ffmpeg -y -f alsa -ac 2 -i default -acodec pcm_s16le -f x11grab -framerate 30 -video_size 1920x1080 -i :0.0+0,0 -c:v libx264 -pix_fmt yuv420p -qp 0 -preset ultrafast output.mkv<br />
-(i recordar activar el dispositiu de captura de so a la icona del costat del rellotge - Monitor de Audio intern Estèreo analògic- )
-
-#### Capturar audio (FFMPEG)
-
-ffmpeg -f alsa -ac 2 -i default -acodec pcm_s16le <fitxer_a_guardar\>.wav
-
-#### Encode video amb subtitols (FFMPEG)
-(idea de https://askubuntu.com/questions/214199/how-do-i-add-and-or-keep-subtitles-when-converting-video)<br />
-<br />
-ffmpeg -i <ORIGEN\> -c:v libx264 -c:a mp3 -c:s mov_text <SORTIDA\>.mp4
-
-#### Crear camera video /dev/video0 falsa ( fake /dev/video0 )
-
-sudo modprobe v4l2loopback<br />
-<br />
-v4l2-ctl --list-devices<br />
-<br />
-( cara7.png es una imatge que es mostrarà com si fos la cara a mostrar. Molt útil per a pimeyes.com )<br />
-ffmpeg -stream_loop -1 -re -i cara7.png -f v4l2 -vcodec rawvideo -pix_fmt yuv420p /dev/video0<br />
 
 #### Canviar permisos
 
@@ -116,14 +94,62 @@ cat /dev/urandom | strings | head -n 100 | tr -d '\n"`\\ \t' | head -c 15 && ech
 
 ### QEmu
 
-qemu-system-x86_64 -boot d -cdrom <imatge o /dev/cdrom> -m 512
+Iniciar un CD/DVD (Ram 512Mb)<br />
+<br />
+```
+qemu-system-x86_64 -boot d -cdrom <imatge o /dev/cdrom\> -m 512
+```
+<br />
+<br />
+Escanejar un disc dur amb un antivirus (ESET / Kaspersky / Norton / Trend Micro) (Ram 2Gb)
+<br />
+<br />
+```
+sudo qemu-system-x86_64 -boot d -cdrom <ISO> -drive file=/dev/sdX -m 2048
+```
+
+### FFmpeg
+
+#### Capturar pantalla per vídeo (FFMPEG)
+
+ffmpeg -y -f alsa -ac 2 -i default -acodec pcm_s16le -f x11grab -framerate 30 -video_size 1920x1080 -i :0.0+0,0 -c:v libx264 -pix_fmt yuv420p -qp 0 -preset ultrafast output.mkv<br />
+(i recordar activar el dispositiu de captura de so a la icona del costat del rellotge - Monitor de Audio intern Estèreo analògic- )
+
+#### Capturar audio (FFMPEG)
+
+ffmpeg -f alsa -ac 2 -i default -acodec pcm_s16le <fitxer_a_guardar\>.wav
+
+#### Enviar cançó o audio a virtual mic (soundhound, midomi, shazam...)
+
+pactl load-module module-null-sink sink_name="virtual_speaker" sink_properties=device.description="virtual_speaker"<br />
+pactl load-module module-remap-source master="virtual_speaker.monitor" source_name="virtual_mic" source_properties=device.description="virtual_mic"<br />
+PULSE_SINK=virtual_speaker ffmpeg -i <AUDIO.{wav|mp3|ogg}/> -f pulse "stream name"
+
+#### Encode video amb subtitols (FFMPEG)
+(idea de https://askubuntu.com/questions/214199/how-do-i-add-and-or-keep-subtitles-when-converting-video)<br />
+<br />
+ffmpeg -i <ORIGEN\> -c:v libx264 -c:a mp3 -c:s mov_text <SORTIDA\>.mp4
+
+#### Encode video tots els audios i subtitols
+(idea de https://superuser.com/questions/940169/having-trouble-understanding-ffmpeg-map-command)<br />
+<br />
+ffmpeg -i <ORIGEN\>.mkv -map 0:0 -map 0:1 -map 0:2 -map 0:3 -map 0:4 -map 0:5 -c:v h264 -c:a mp3 -c:s mov_text <SORTIDA\>.mp4
+
+#### Crear camera video /dev/video0 falsa ( fake /dev/video0 )
+
+sudo modprobe v4l2loopback<br />
+<br />
+v4l2-ctl \-\-list-devices<br />
+<br />
+( cara7.png es una imatge que es mostrarà com si fos la cara a mostrar. Molt útil per a pimeyes.com )<br />
+ffmpeg -stream_loop -1 -re -i cara7.png -f v4l2 -vcodec rawvideo -pix_fmt yuv420p /dev/video0<br />
 
 ### Squid
 
 (https://wiki.squid-cache.org/ConfigExamples/Intercept/SslBumpExplicit)<br />
 (https://techexpert.tips/squid/install-squid-with-https-ssl-decryption-ubuntu-linux/)<br />
 <br />
-./configure --with-default-user=proxy --with-openssl --enable-ssl-crtd<br />
+./configure \-\-with-default-user=proxy \-\-with-openssl \-\-enable-ssl-crtd<br />
 make<br />
 sudo make install<br />
 <br />
@@ -161,12 +187,12 @@ openssl x509 -in myCA.pem -outform DER -out myCA.der
 ----
 Opció 2 (certool)
 
-certtool --generate-privkey --outfile ca-key.pem
-certtool --generate-self-signed --load-privkey ca-key.pem --outfile myCA.pem
+certtool \-\-generate-privkey \-\-outfile ca-key.pem
+certtool \-\-generate-self-signed \-\-load-privkey ca-key.pem \-\-outfile myCA.pem
 
 ----
 
-(Depenent de com s'hagi configurat a la instalació (--with-openssl o --with-gnutls) utilitzarem un o altre)
+(Depenent de com s'hagi configurat a la instalació (\-\-with-openssl o \-\-with-gnutls) utilitzarem un o altre)
 ```
 
 Triem openssl (el més extès)<br />
@@ -223,9 +249,11 @@ sudo /usr/local/squid/sbin/./squid<br />
 
 | Què fa? | Comanda |
 | :---    | :---    |
-| Moure la última paraula al començar de la línia | :%s/^\(.\+\)\s\+\(\S\+\)$/\2 \1/ |
-| Remarcar les paraules duplicades | :g/^\(.*\)$\n\1$/p |
+| Moure la última paraula al començar de la línia | :%s/^\\(.\\+\\)\\s\\+\\(\\S\\+\\)$/\\2 \1/ |
+| Remarcar les paraules duplicades | :g/^\\(.*\\)$\n\1$/p |
 | Eliminar N línies per sobre el patró, el patró mateix i, M línies per sota | :g/<PATRÓ\>/-N d M |
+| Mostrar el text en columnes | :%!column -t |
+| Ordenar segons la tercera columna (-k3) tractant el text com a numèric (n) i a la inversa \(r\) | :%!sort -k3nr |
 
 Per a reemplaçar text preservant-ne'n alguna part:<br />
 <br />
@@ -233,6 +261,7 @@ Per a reemplaçar text preservant-ne'n alguna part:<br />
 %s/\s\+\([0-9a-f]*\)/text \1\r/g
 ```
 <br />
+
 | Codi | Explicació |
 | :--- | :--- |
 | \s\+ | Cerca un espai o més |
@@ -251,7 +280,7 @@ not (ip.addr == 1.1.1.1 or ip.addr == 8.8.4.4 or ip.addr == 8.8.8.8 or ip.addr =
 
 | Comanda | Definició |
 | :---    | :---      |
-| mokutil | Comanda per a llistar les claus i l'estat del Secure Boot (mokutil --sb-state ; mokutil --list-enrolled) |
+| mokutil | Comanda per a llistar les claus i l'estat del Secure Boot (mokutil \-\-sb-state ; mokutil \-\-list-enrolled) |
 | osslsigncode | Comanda per a extreure i signar digitalment alguns fitxers de Windows. Útil per a bypass d'alguns anti-virus |
 | lsblk -o NAME,RO | Visualitza els dispositius connectats (disc durs/dispositius de loop, etc...)  que estiguin en Read Only |
 | hdparm -r 0 /dev/sdk1 | Posa a 0 el mode de només lectura |
