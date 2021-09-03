@@ -68,13 +68,23 @@ find <ruta o carpeta\> -type f -exec chmod go-rw {} \;<br />
 
 #### Llegir DOCX al terminal
 
+```
 unzip -p ./foo.docx | sed -e 's/<[^>]\{1,\}\>//g;s/<[^[:print:]]\{1,\}//g'
-
+```
 
 #### Comparar hexadecimalment dos fitxers i veure les diferències
 
+```
 cmp -l <fitxer1\> <fitxer2\> | gawk '{printf "%08X %02X %02X\n", $1, strtonum(0$2), strtonum(0$3)}' <br />
 meld <(hexdump -C <fitxer1\>) <(hexdump -C <fitxer2\>)
+```
+
+### 7zip
+
+Comprimir un fitxer amb contrasenya i prevenir que es pugui llistar el contingut<br />
+```
+7z a -p<CONTRASENYA\> -mhe -t7z <SORTIDA\>.7z <FITXER\>.pdf
+```
 
 ### Recon
 
@@ -119,7 +129,7 @@ ffmpeg -y -f alsa -ac 2 -i default -acodec pcm_s16le -f x11grab -framerate 30 -v
 
 ffmpeg -f alsa -ac 2 -i default -acodec pcm_s16le <fitxer_a_guardar\>.wav
 
-#### Enviar cançó o audio a virtual mic (soundhound, midomi, shazam...)
+#### Enviar cançó o audio a virtual mic (audiotag, soundhound, midomi, shazam...)
 
 pactl load-module module-null-sink sink_name="virtual_speaker" sink_properties=device.description="virtual_speaker"<br />
 pactl load-module module-remap-source master="virtual_speaker.monitor" source_name="virtual_mic" source_properties=device.description="virtual_mic"<br />
@@ -298,4 +308,22 @@ ssh-add ~/.ssh/id_ed25519_github
 
 ssh -XY <altre usuari\>@localhost <programa que vols executar\>
 
+## Canviar la contrasenya d'una clau
 
+### Canviar la contrasenya de la clau privada per defecte
+
+```
+ssh-keygen -p
+```
+
+### Canviar la contrasenya d'un fitxer
+
+```
+ssh-keygen -f ~/.ssh/<fitxer\> -p
+```
+
+### Eliminar una contrasenya d'un fitxer
+
+```
+ssh-keygen -f ~/.ssh/<fitxer\> -p -N ""
+```
