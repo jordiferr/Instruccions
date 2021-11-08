@@ -36,6 +36,10 @@ sudo apt-get install \-\-download-only <nom_paquet\>
 
 # Python3
 
+## Llegir fitxer linia a linia i guardar-ho com a llista
+
+alist = [line.rstrip() for line in open('filename.txt')]
+
 # Instruccions aleatòries
 
 ### Wacom
@@ -84,6 +88,14 @@ meld <(hexdump -C <fitxer1\>) <(hexdump -C <fitxer2\>)
 Comprimir un fitxer amb contrasenya i prevenir que es pugui llistar el contingut<br />
 ```
 7z a -p<CONTRASENYA\> -mhe -t7z <SORTIDA\>.7z <FITXER\>.pdf
+```
+
+### RAR
+
+Comprimir un fitxer amb contrasenya i prevenir que es pugui llistar el contingut<br />
+Demanarà la contrasenya. L'escriurem dues vegades.<br />
+```
+./rar a -hp <SORTIDA\>.rar <fitxer1\> <...\> <fitxerN\>
 ```
 
 ### Recon
@@ -153,6 +165,10 @@ v4l2-ctl \-\-list-devices<br />
 <br />
 ( cara7.png es una imatge que es mostrarà com si fos la cara a mostrar. Molt útil per a pimeyes.com )<br />
 ffmpeg -stream_loop -1 -re -i cara7.png -f v4l2 -vcodec rawvideo -pix_fmt yuv420p /dev/video0<br />
+
+#### Eliminar l'audio en grup
+
+for i in \*.mp4 ; do ffmpeg -i "$i" -c:v copy -an "nou/${i%.\*}\_NOAUDIO.mp4"; done
 
 ### Squid
 
@@ -277,7 +293,12 @@ Per a reemplaçar text preservant-ne'n alguna part:<br />
 | \s\+ | Cerca un espai o més |
 | \([0-9a-f]*\) | Guarda en un buffer un contingut |
 | text \1\r | Escriu "text" + el contingut guardat i una nova línia |
-
+<br />
+Per a moure text (text2, text1    | text3)  a ->  (text1 text2  | | text3)<br />
+<br />
+```
+%s/\(.*\),\([^)]*\)\s\+\(.*|\)/\2\1 | \3/
+```
 
 ### Wireshark
 
