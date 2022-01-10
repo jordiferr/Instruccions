@@ -276,10 +276,12 @@ sudo /usr/local/squid/sbin/./squid<br />
 | Què fa? | Comanda |
 | :---    | :---    |
 | Moure la última paraula al començar de la línia | :%s/^\\(.\\+\\)\\s\\+\\(\\S\\+\\)$/\\2 \1/ |
-| Remarcar les paraules duplicades | :g/^\\(.*\\)$\n\1$/p |
+| Remarcar les paraules duplicades | :g/^\\(.*\\)$\\n\\1$/p |
+| Canviar format data DD/MM/YYYY -> YYYY-MM-DD | :%s/\\(\\d\\{2}\\)\\/\\(\\d\\{2}\\)\\/\\(\\d\\{4}\\)/\\3-\\2-\\1/g |
 | Eliminar N línies per sobre el patró, el patró mateix i, M línies per sota | :g/<PATRÓ\>/-N d M |
 | Mostrar el text en columnes | :%!column -t |
 | Ordenar segons la tercera columna (-k3) tractant el text com a numèric (n) i a la inversa \(r\) | :%!sort -k3nr |
+| Ressaltar línies duplicades | :syn clear Repeat \| g/^\\(.\*\\)\\n\\ze\\%(.\*\\n\\)\*\\1$/exe 'syn match Repeat "^' . escape(getline('.'), '".\\^$\*[]') . '$"' \| nohlsearch |
 
 Per a reemplaçar text preservant-ne'n alguna part:<br />
 <br />
@@ -293,7 +295,7 @@ Per a reemplaçar text preservant-ne'n alguna part:<br />
 | \s\+ | Cerca un espai o més |
 | \([0-9a-f]*\) | Guarda en un buffer un contingut |
 | text \1\r | Escriu "text" + el contingut guardat i una nova línia |
-<br />
+
 Per a moure text (text2, text1    | text3)  a ->  (text1 text2  | | text3)<br />
 <br />
 ```

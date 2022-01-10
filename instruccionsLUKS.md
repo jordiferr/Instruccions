@@ -49,3 +49,9 @@ Obrir mitjançant el navegador de fitxers gràfic i al **primer ús** canviar el
 <code>
 \# chmod -R **usuari habitual** <carpeta on està muntat>
 <code />
+
+# Verificar slots ocupats
+
+<code>
+\# cryptsetup luksDump /dev/sda2
+<code />

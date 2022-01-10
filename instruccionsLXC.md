@@ -7,7 +7,7 @@ lxd init<br />
 (configurar)<br />
 exit
 
-$ lxc image list images : `nom de distribució`<br />
+$ lxc image list images: `nom de distribució`<br />
 $ lxc launch images: `nom de la imatge` ( per exemple centos/8 )<br />
 $ lxc stop `nom de la imatge`<br />
 $ lxc move `nom de la imatge` `nou nom`<br />
