@@ -282,6 +282,7 @@ sudo /usr/local/squid/sbin/./squid<br />
 | Mostrar el text en columnes | :%!column -t |
 | Ordenar segons la tercera columna (-k3) tractant el text com a numèric (n) i a la inversa \(r\) | :%!sort -k3nr |
 | Ressaltar línies duplicades | :syn clear Repeat \| g/^\\(.\*\\)\\n\\ze\\%(.\*\\n\\)\*\\1$/exe 'syn match Repeat "^' . escape(getline('.'), '".\\^$\*[]') . '$"' \| nohlsearch |
+| Eliminar a partir del caràcter : | %norm f:C |
 
 Per a reemplaçar text preservant-ne'n alguna part:<br />
 <br />
@@ -349,4 +350,13 @@ ssh-keygen -f ~/.ssh/<fitxer\> -p
 
 ```
 ssh-keygen -f ~/.ssh/<fitxer\> -p -N ""
+```
+
+# GPG2
+
+## Generar fitxer de clau aleatòria
+
+```
+<strike>dd if=/dev/urandom count=64 | gpg2 --symmetric --cipher-algo aes --armor > clauGPG_aleatoria.asc</strike>
+dd if=/dev/urandom bs=512 count=64 | gpg2 -v --cipher-algo aes256 --digest-algo sha512 -c -a > clauGPG_aleatoria.asc
 ```
