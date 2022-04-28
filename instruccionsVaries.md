@@ -4,7 +4,9 @@
 
 Descarregar un paquet per a poder-lo instal·lar quan l'eliminin per qualsevol tonteria:
 
+<code>
 sudo apt-get install \-\-download-only <nom_paquet\>
+<code />
 
 ## Manipulació PDFs
 
@@ -38,7 +40,9 @@ sudo apt-get install \-\-download-only <nom_paquet\>
 
 ## Llegir fitxer linia a linia i guardar-ho com a llista
 
+<code>
 alist = [line.rstrip() for line in open('filename.txt')]
+<code />
 
 # Instruccions aleatòries
 
@@ -46,12 +50,14 @@ alist = [line.rstrip() for line in open('filename.txt')]
 
 Per a utilitzar la tarja Wacom a una pantalla (quan n'hi ha 2 d'instal·lades).<br />
 <br />
+<code>
 xrandr \-\-listactivemonitors<br />
 xsetwacom \-\-list devices	(Apuntar el ID)<br />
 xsetwacom \-\-set "19" MapToOutput HDMI-2<br />
 xsetwacom \-\-set "20" MapToOutput HDMI-2<br />
 xsetwacom \-\-set "21" MapToOutput HDMI-2<br />
 xsetwacom \-\-set "22" MapToOutput HDMI-2<br />
+<code />
 
 # Bash
 
@@ -59,16 +65,28 @@ xsetwacom \-\-set "22" MapToOutput HDMI-2<br />
 
 Instal·lar el paquet `mmv`<br />
 <br />
+<code>
 mmv Un\ nom\ de\ fitxer\ acanviar\*.extensio Un\ nom\ de\ fitxer\ acanviar\#1.mp4<br />
+<code />
 
 #### Enviar mail per línia de comandes
 
+<code>
 printf "COS" | mail -s "SUBJECTE" -F <mail\>
+<code />
 
 #### Canviar permisos
 
+<code>
 find <ruta o carpeta\> -type f -exec chmod u+rw {} \;<br />
 find <ruta o carpeta\> -type f -exec chmod go-rw {} \;<br />
+<code />
+
+#### Eliminar fitxer anterior a X data
+
+<code>
+find <ruta o carpeta\> ! -newermt "2021-12-01 01:00:00" \| xargs rm -rf
+<code />
 
 #### Llegir DOCX al terminal
 
@@ -283,6 +301,7 @@ sudo /usr/local/squid/sbin/./squid<br />
 | Ordenar segons la tercera columna (-k3) tractant el text com a numèric (n) i a la inversa \(r\) | :%!sort -k3nr |
 | Ressaltar línies duplicades | :syn clear Repeat \| g/^\\(.\*\\)\\n\\ze\\%(.\*\\n\\)\*\\1$/exe 'syn match Repeat "^' . escape(getline('.'), '".\\^$\*[]') . '$"' \| nohlsearch |
 | Eliminar a partir del caràcter : | %norm f:C |
+| Afegir a final de línia, només línies que continguin regex | g/<pattern\>/norm A<caràcter que vols afegir> |
 
 Per a reemplaçar text preservant-ne'n alguna part:<br />
 <br />
