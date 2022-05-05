@@ -22,12 +22,16 @@ $ sudo pg_ctlcluster <versioNova> main start<br />
 ## Canviar editor de text
 
 Per canviar l'editor de text<br />
+```sql
 \setenv PSQL_EDITOR "/usr/bin/vim"
+```
 
 ## Primers pasos (entrar com **postgres**)
 
-CREATE ROLE < nom_del_usuari /> WITH login; <br />
+```sql
+CREATE ROLE < nom_del_usuari /> WITH login;
 CREATE DATABASE < nom_base_de_dades /> WITH OWNER < nom_del_usuari />;
+```
 
 ## Selecció dades en funció de la data
 
@@ -48,8 +52,10 @@ Un cop creada la extensió dins la base de dades podrem utilitzar la comanda **s
 
 ## Eliminar i resetejar id
 
-$ DELETE FROM **<taula>** WHERE id = **<num>**;<br />
-$ ALTER SEQUENCE **<taula>\_id\_seq** RESTART WITH **<num_desitjat>**;
+```sql
+DELETE FROM **<taula>** WHERE id = **<num>**;
+ALTER SEQUENCE **<taula>\_id\_seq** RESTART WITH **<num_desitjat>**;
+```
 
 ## PROCEDURE vs FUNCTION
 
@@ -91,4 +97,23 @@ Finalment per a cridar un **procedure** el que farem és:
 
 ```sql
 CALL nomProcedure();
+```
+
+## Funció per a veure el que consumeix cada taula
+
+```sql
+SELECT
+  nspname || '.' || relname as "relation",
+  pg_size_pretty(pg_relation_size(C.oid)) AS "size"
+FROM
+  pg_class C
+LEFT JOIN
+  pg_namespace N
+ON
+  (N.oid = C.relnamespace)
+WHERE
+  nspname
+NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
+ORDER BY
+  pg_relation_size(C.oid) DESC;
 ```
