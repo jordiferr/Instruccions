@@ -52,20 +52,20 @@ alist = [line.rstrip() for line in open('filename.txt')]
 
 Per a utilitzar la tarja Wacom a una pantalla (quan n'hi ha 2 d'instal·lades).<br />
 <br />
-<code>
-xrandr \-\-listactivemonitors<br />
-xsetwacom \-\-list devices	(Apuntar el ID)<br />
-xsetwacom \-\-set "19" MapToOutput HDMI-2<br />
-xsetwacom \-\-set "20" MapToOutput HDMI-2<br />
-xsetwacom \-\-set "21" MapToOutput HDMI-2<br />
-xsetwacom \-\-set "22" MapToOutput HDMI-2<br />
-<code />
+```
+xrandr --listactivemonitors
+xsetwacom --list devices	(Apuntar el ID)
+xsetwacom --set "19" MapToOutput HDMI-2
+xsetwacom --set "20" MapToOutput HDMI-2
+xsetwacom --set "21" MapToOutput HDMI-2
+xsetwacom --set "22" MapToOutput HDMI-2
+```
 
 # Bash
 
 #### Reanomenar fitxers en massa
 
-Instal·lar el paquet `mmv`<br />
+Instal·lar el paquet <code>mmv<code /><br />
 <br />
 ```
 mmv Un\ nom\ de\ fitxer\ acanviar\*.extensio Un\ nom\ de\ fitxer\ acanviar\#1.mp4
@@ -74,20 +74,20 @@ mmv Un\ nom\ de\ fitxer\ acanviar\*.extensio Un\ nom\ de\ fitxer\ acanviar\#1.mp
 #### Enviar mail per línia de comandes
 
 ```
-printf "COS" | mail -s "SUBJECTE" -F <mail\>
+printf "COS" | mail -s "SUBJECTE" -F <mail>
 ```
 
 #### Canviar permisos
 
 ```
-find <ruta o carpeta\> -type f -exec chmod u+rw {} \;
-find <ruta o carpeta\> -type f -exec chmod go-rw {} \;
+find <ruta o carpeta> -type f -exec chmod u+rw {} \;
+find <ruta o carpeta> -type f -exec chmod go-rw {} \;
 ```
 
 #### Eliminar fitxer anterior a X data
 
 ```
-find <ruta o carpeta\> ! -newermt "2021-12-01 01:00:00" \| xargs rm -rf
+find <ruta o carpeta> ! -newermt "2021-12-01 01:00:00" \| xargs rm -rf
 ```
 
 #### Eliminar el contingut d'un fitxer
@@ -111,8 +111,8 @@ unzip -p foo.docx word/document.xml | sed -e 's/<[^>]\{1,\}>//g; s/[^[:print:]]\
 #### Comparar hexadecimalment dos fitxers i veure les diferències
 
 ```
-cmp -l <fitxer1\> <fitxer2\> | gawk '{printf "%08X %02X %02X\n", $1, strtonum(0$2), strtonum(0$3)}'
-meld <(hexdump -C <fitxer1\>) <(hexdump -C <fitxer2\>)
+cmp -l <fitxer1> <fitxer2> | gawk '{printf "%08X %02X %02X\n", $1, strtonum(0$2), strtonum(0$3)}'
+meld <(hexdump -C <fitxer1>) <(hexdump -C <fitxer2>)
 ```
 
 ### 7zip
@@ -121,7 +121,7 @@ Comprimir un fitxer amb contrasenya i prevenir que es pugui llistar el contingut
 <br />
 <br />
 ```
-7z a -p<CONTRASENYA\> -mhe -t7z <SORTIDA\>.7z <FITXER\>.pdf
+7z a -p<CONTRASENYA> -mhe -t7z <SORTIDA>.7z <FITXER>.pdf
 ```
 
 ### RAR
@@ -130,18 +130,18 @@ Comprimir un fitxer amb contrasenya i prevenir que es pugui llistar el contingut
 Demanarà la contrasenya. L'escriurem dues vegades.<br />
 <br />
 ```
-./rar a -hp <SORTIDA\>.rar <fitxer1\> <...\> <fitxerN\>
+./rar a -hp <SORTIDA>.rar <fitxer1> <...> <fitxerN>
 ```
 
 ### Recon
 
 #### Informació email
 ```
-curl -s emailrep.io/<EMAIL\> | jq
+curl -s emailrep.io/<EMAIL> | jq
 ```
 #### Informació IP
 ```
-curl -s ipinfo.io/<IP\> | jq
+curl -s ipinfo.io/<IP> | jq
 ```
 ### Generar cadenes contrasenyes
 
@@ -155,12 +155,11 @@ cat /dev/urandom | strings | head -n 100 | tr -d '\n"`\\ \t' | head -c 15 && ech
 Iniciar un CD/DVD (Ram 512Mb)<br />
 <br />
 ```
-qemu-system-x86_64 -boot d -cdrom <imatge o /dev/cdrom\> -m 512
+qemu-system-x86_64 -boot d -cdrom <imatge o /dev/cdrom> -m 512
 ```
 <br />
 <br />
-Escanejar un disc dur amb un antivirus (ESET / Kaspersky / Norton / Trend Micro) (Ram 2Gb)
-<br />
+Escanejar un disc dur amb un antivirus (ESET / Kaspersky / Norton / Trend Micro) (Ram 2Gb)<br />
 <br />
 ```
 sudo qemu-system-x86_64 -boot d -cdrom <ISO> -drive file=/dev/sdX -m 2048
@@ -184,23 +183,25 @@ ffmpeg -f alsa -ac 2 -i default -acodec pcm_s16le <fitxer_a_guardar>.wav
 #### Enviar cançó o audio a virtual mic (audiotag, soundhound, midomi, shazam...)
 
 ```
-pactl load-module module-null-sink sink_name="virtual_speaker" sink_properties=device.description="virtual_speaker"<br />
-pactl load-module module-remap-source master="virtual_speaker.monitor" source_name="virtual_mic" source_properties=device.description="virtual_mic"<br />
+pactl load-module module-null-sink sink_name="virtual_speaker" sink_properties=device.description="virtual_speaker"
+pactl load-module module-remap-source master="virtual_speaker.monitor" source_name="virtual_mic" source_properties=device.description="virtual_mic"
 PULSE_SINK=virtual_speaker ffmpeg -i <AUDIO.{wav|mp3|ogg}> -f pulse "stream name"
 ```
 
 #### Encode video amb subtitols (FFMPEG)
+
 (idea de https://askubuntu.com/questions/214199/how-do-i-add-and-or-keep-subtitles-when-converting-video)<br />
 <br />
 ```
-ffmpeg -i <ORIGEN\> -c:v libx264 -c:a mp3 -c:s mov_text <SORTIDA\>.mp4
+ffmpeg -i <ORIGEN> -c:v libx264 -c:a mp3 -c:s mov_text <SORTIDA>.mp4
 ```
 
 #### Encode video tots els audios i subtitols
+
 (idea de https://superuser.com/questions/940169/having-trouble-understanding-ffmpeg-map-command)<br />
 <br />
 ```
-ffmpeg -i <ORIGEN\>.mkv -map 0:0 -map 0:1 -map 0:2 -map 0:3 -map 0:4 -map 0:5 -c:v h264 -c:a mp3 -c:s mov_text <SORTIDA>.mp4
+ffmpeg -i <ORIGEN>.mkv -map 0:0 -map 0:1 -map 0:2 -map 0:3 -map 0:4 -map 0:5 -c:v h264 -c:a mp3 -c:s mov_text <SORTIDA>.mp4
 ```
 
 #### Crear camera video /dev/video0 falsa ( fake /dev/video0 )
