@@ -2,9 +2,7 @@
 
 ```
 apt install lxd lxc
-```
-<br />
-```
+
 sudo su
 lxd init
 (configurar)
@@ -17,8 +15,8 @@ $ lc image list images: `nom de distribució`
 $ lxc launch images: `nom de la imatge` ( per exemple centos/8 )
 $ lxc stop `nom de la imatge`
 $ lxc move `nom de la imatge` `nou nom`
-<br />
-$ lxc list<br />
+
+$ lxc list
 $ lxc exec <nom de la imatge descarregada> bash
 ```
 
@@ -35,19 +33,19 @@ Descarreguem la imatge: <br />
 Executem la imatge i configurem el ssh
 
 ```
-lxc exec proxy bash<br />
-root@:~# useradd -m root<br />
-useradd: user 'root' already exists<br />
-root@:~# useradd -m master<br />
-root@:~# apt-get update ; apt install ssh ; apt install lxd<br />
-root@:~# sh -c 'echo master:passwd | chpasswd'<br />
-root@:~# usermod -a -G lxd,sudo master<br />
-root@:~# usermod -s /bin/bash master<br />
-root@:~# sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config<br />
-root@:~# service ssh restart<br />
-root@:~# export LC_CTYPE=en_US.UTF-8<br />
-root@:~# export LC_ALL=en_US.UTF-8<br />
-root@:~# source ~/.bashrc<br />
+lxc exec proxy bash
+root@:~# useradd -m root
+useradd: user 'root' already exists
+root@:~# useradd -m master
+root@:~# apt-get update ; apt install ssh ; apt install lxd
+root@:~# sh -c 'echo master:passwd | chpasswd'
+root@:~# usermod -a -G lxd,sudo master
+root@:~# usermod -s /bin/bash master
+root@:~# sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+root@:~# service ssh restart
+root@:~# export LC_CTYPE=en_US.UTF-8
+root@:~# export LC_ALL=en_US.UTF-8
+root@:~# source ~/.bashrc
 root@:~# exit
 ```
 
@@ -55,8 +53,8 @@ Entrem mitjançant ssh:
 
 ```
 ssh master@10.240.165.143
-<br />
-usuari: **master**<br />
+
+usuari: **master**
 contrasenya: **passwd**
 ```
 
@@ -72,6 +70,13 @@ Descarreguem la configuració del vpn i (continuarà...)
 lxc launch images:opensuse/tumbleweed/desktop-kde --vm --console=vga
 ```
 
+Això permet crear una màquina virtual que podem engegar-la amb:
+
+```
+lxc start <nom> --console=vga
+```
+
 # Annex
 
-Pàgina [Simos.info](https://blog.simos.info/how-to-use-the-lxd-proxy-device-to-map-ports-between-the-host-and-the-containers/) té més informació sobre LXC.
+Pàgina [Simos.info](https://blog.simos.info/how-to-use-the-lxd-proxy-device-to-map-ports-between-the-host-and-the-containers/) té més informació sobre LXC.<br />
+Pàgina de [Linux Containers](https://discuss.linuxcontainers.org/t/lxd-4-4-has-been-released/8574) explicant sobre <code>--console=vga</code>

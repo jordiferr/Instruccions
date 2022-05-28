@@ -4,9 +4,9 @@
 
 Descarregar un paquet per a poder-lo instal·lar quan l'eliminin per qualsevol tonteria:
 
-<code>
-sudo apt-get install \-\-download-only <nom_paquet\>
-<code />
+```
+sudo apt-get install --download-only <nom_paquet>
+```
 
 ## Manipulació PDFs
 
@@ -19,6 +19,7 @@ sudo apt-get install \-\-download-only <nom_paquet\>
 | Eliminar Streams (util per eliminar codi no desitjat) | qpdf \-\-object-streams=disable -qdf INPUT.pdf OUTPUT.pdf |
 | linearitzar PDF: | qpdf \-\-linearize INPUT.pdf OUTPUT.pdf |
 | Reparar PDF | qpdf INPUT.pdf OUTPUT.pdf |
+
 
 ### Okular
 
@@ -36,13 +37,14 @@ sudo apt-get install \-\-download-only <nom_paquet\>
 | /R pop rdi | Llista funcions que contenen ROP RDI |
 | f~.init_array | Llista els constructors que hi puguin haver |
 
+
 # Python3
 
 ## Llegir fitxer linia a linia i guardar-ho com a llista
 
-<code>
+```
 alist = [line.rstrip() for line in open('filename.txt')]
-<code />
+```
 
 # Instruccions aleatòries
 
@@ -65,45 +67,59 @@ xsetwacom \-\-set "22" MapToOutput HDMI-2<br />
 
 Instal·lar el paquet `mmv`<br />
 <br />
-<code>
-mmv Un\ nom\ de\ fitxer\ acanviar\*.extensio Un\ nom\ de\ fitxer\ acanviar\#1.mp4<br />
-<code />
+```
+mmv Un\ nom\ de\ fitxer\ acanviar\*.extensio Un\ nom\ de\ fitxer\ acanviar\#1.mp4
+```
 
 #### Enviar mail per línia de comandes
 
-<code>
+```
 printf "COS" | mail -s "SUBJECTE" -F <mail\>
-<code />
+```
 
 #### Canviar permisos
 
-<code>
-find <ruta o carpeta\> -type f -exec chmod u+rw {} \;<br />
-find <ruta o carpeta\> -type f -exec chmod go-rw {} \;<br />
-<code />
+```
+find <ruta o carpeta\> -type f -exec chmod u+rw {} \;
+find <ruta o carpeta\> -type f -exec chmod go-rw {} \;
+```
 
 #### Eliminar fitxer anterior a X data
 
-<code>
+```
 find <ruta o carpeta\> ! -newermt "2021-12-01 01:00:00" \| xargs rm -rf
-<code />
+```
+
+#### Eliminar el contingut d'un fitxer
+
+<br />
+
+| Mitjançant | Comanda |
+| :---     | :---      |
+| /dev/null | cat /dev/null > fitxer.txt |
+| truncate | truncate -s 0 <fitxer> |
+| :> | :> fitxer.txt |
+
+<br />
 
 #### Llegir DOCX al terminal
 
 ```
-unzip -p ./foo.docx | sed -e 's/<[^>]\{1,\}\>//g;s/<[^[:print:]]\{1,\}//g'
+unzip -p foo.docx word/document.xml | sed -e 's/<[^>]\{1,\}>//g; s/[^[:print:]]\{1,\}//g'
 ```
 
 #### Comparar hexadecimalment dos fitxers i veure les diferències
 
 ```
-cmp -l <fitxer1\> <fitxer2\> | gawk '{printf "%08X %02X %02X\n", $1, strtonum(0$2), strtonum(0$3)}' <br />
+cmp -l <fitxer1\> <fitxer2\> | gawk '{printf "%08X %02X %02X\n", $1, strtonum(0$2), strtonum(0$3)}'
 meld <(hexdump -C <fitxer1\>) <(hexdump -C <fitxer2\>)
 ```
 
 ### 7zip
 
-Comprimir un fitxer amb contrasenya i prevenir que es pugui llistar el contingut<br />
+Comprimir un fitxer amb contrasenya i prevenir que es pugui llistar el contingut
+<br />
+<br />
 ```
 7z a -p<CONTRASENYA\> -mhe -t7z <SORTIDA\>.7z <FITXER\>.pdf
 ```
@@ -112,6 +128,7 @@ Comprimir un fitxer amb contrasenya i prevenir que es pugui llistar el contingut
 
 Comprimir un fitxer amb contrasenya i prevenir que es pugui llistar el contingut<br />
 Demanarà la contrasenya. L'escriurem dues vegades.<br />
+<br />
 ```
 ./rar a -hp <SORTIDA\>.rar <fitxer1\> <...\> <fitxerN\>
 ```
@@ -119,18 +136,19 @@ Demanarà la contrasenya. L'escriurem dues vegades.<br />
 ### Recon
 
 #### Informació email
-
+```
 curl -s emailrep.io/<EMAIL\> | jq
-
+```
 #### Informació IP
-
+```
 curl -s ipinfo.io/<IP\> | jq
-
+```
 ### Generar cadenes contrasenyes
 
 (longitud 15)<br />
+```
 cat /dev/urandom | strings | head -n 100 | tr -d '\n"`\\ \t' | head -c 15 && echo || tr -cd '[:alnum:] < /dev/urandom | fold -w 32 | head -n 20'
-
+```
 
 ### QEmu
 
@@ -152,47 +170,63 @@ sudo qemu-system-x86_64 -boot d -cdrom <ISO> -drive file=/dev/sdX -m 2048
 
 #### Capturar pantalla per vídeo (FFMPEG)
 
-ffmpeg -y -f alsa -ac 2 -i default -acodec pcm_s16le -f x11grab -framerate 30 -video_size 1920x1080 -i :0.0+0,0 -c:v libx264 -pix_fmt yuv420p -qp 0 -preset ultrafast output.mkv<br />
+```
+ffmpeg -y -f alsa -ac 2 -i default -acodec pcm_s16le -f x11grab -framerate 30 -video_size 1920x1080 -i :0.0+0,0 -c:v libx264 -pix_fmt yuv420p -qp 0 -preset ultrafast output.mkv
+```
 (i recordar activar el dispositiu de captura de so a la icona del costat del rellotge - Monitor de Audio intern Estèreo analògic- )
 
 #### Capturar audio (FFMPEG)
 
-ffmpeg -f alsa -ac 2 -i default -acodec pcm_s16le <fitxer_a_guardar\>.wav
+```
+ffmpeg -f alsa -ac 2 -i default -acodec pcm_s16le <fitxer_a_guardar>.wav
+```
 
 #### Enviar cançó o audio a virtual mic (audiotag, soundhound, midomi, shazam...)
 
+```
 pactl load-module module-null-sink sink_name="virtual_speaker" sink_properties=device.description="virtual_speaker"<br />
 pactl load-module module-remap-source master="virtual_speaker.monitor" source_name="virtual_mic" source_properties=device.description="virtual_mic"<br />
-PULSE_SINK=virtual_speaker ffmpeg -i <AUDIO.{wav|mp3|ogg}/> -f pulse "stream name"
+PULSE_SINK=virtual_speaker ffmpeg -i <AUDIO.{wav|mp3|ogg}> -f pulse "stream name"
+```
 
 #### Encode video amb subtitols (FFMPEG)
 (idea de https://askubuntu.com/questions/214199/how-do-i-add-and-or-keep-subtitles-when-converting-video)<br />
 <br />
+```
 ffmpeg -i <ORIGEN\> -c:v libx264 -c:a mp3 -c:s mov_text <SORTIDA\>.mp4
+```
 
 #### Encode video tots els audios i subtitols
 (idea de https://superuser.com/questions/940169/having-trouble-understanding-ffmpeg-map-command)<br />
 <br />
-ffmpeg -i <ORIGEN\>.mkv -map 0:0 -map 0:1 -map 0:2 -map 0:3 -map 0:4 -map 0:5 -c:v h264 -c:a mp3 -c:s mov_text <SORTIDA\>.mp4
+```
+ffmpeg -i <ORIGEN\>.mkv -map 0:0 -map 0:1 -map 0:2 -map 0:3 -map 0:4 -map 0:5 -c:v h264 -c:a mp3 -c:s mov_text <SORTIDA>.mp4
+```
 
 #### Crear camera video /dev/video0 falsa ( fake /dev/video0 )
 
-sudo modprobe v4l2loopback<br />
+```
+sudo modprobe v4l2loopback
+v4l2-ctl \-\-list-devices
+```
+( cara7.png es una imatge que es mostrarà com si fos la cara a mostrar. Molt útil per a pimeyes.com )
 <br />
-v4l2-ctl \-\-list-devices<br />
-<br />
-( cara7.png es una imatge que es mostrarà com si fos la cara a mostrar. Molt útil per a pimeyes.com )<br />
-ffmpeg -stream_loop -1 -re -i cara7.png -f v4l2 -vcodec rawvideo -pix_fmt yuv420p /dev/video0<br />
+```
+ffmpeg -stream_loop -1 -re -i cara7.png -f v4l2 -vcodec rawvideo -pix_fmt yuv420p /dev/video0
+```
 
 #### Eliminar l'audio en grup
 
+```
 for i in \*.mp4 ; do ffmpeg -i "$i" -c:v copy -an "nou/${i%.\*}\_NOAUDIO.mp4"; done
+```
 
 ### Squid
 
 (https://wiki.squid-cache.org/ConfigExamples/Intercept/SslBumpExplicit)<br />
 (https://techexpert.tips/squid/install-squid-with-https-ssl-decryption-ubuntu-linux/)<br />
 <br />
+<code>
 ./configure \-\-with-default-user=proxy \-\-with-openssl \-\-enable-ssl-crtd<br />
 make<br />
 sudo make install<br />
@@ -200,20 +234,24 @@ sudo make install<br />
 sudo su<br />
 updatedb<br />
 vim /etc/ssl/openssl.cnf<br />
-(Afegir les següents línies al final)
-
-```
+<code />
+(Afegir les següents línies al final)<br />
+<br />
+<code>
 [ v3_ca ]
 
 keyUsage = cRLSign, keyCertSign
+<br />
+<br />
+<code />
 ```
 mkdir /usr/local/squid/etc/ssl_cert -p<br />
 chown proxy:proxy /usr/local/squid/etc/ssl_cert -R<br />
 chmod 700 /usr/local/squid/etc/ssl_cert -R<br />
 cd /usr/local/squid/etc/ssl_cert<br />
-
-----
 ```
+----
+
 Opció 1 (openssl)
 
 openssl req -new -newkey rsa:2048 -sha256 -days 365 -nodes -x509 -extensions v3_ca -keyout myCA.pem -out myCA.pem
@@ -312,14 +350,21 @@ Per a reemplaçar text preservant-ne'n alguna part:<br />
 
 | Codi | Explicació |
 | :--- | :--- |
-| \s\+ | Cerca un espai o més |
-| \([0-9a-f]*\) | Guarda en un buffer un contingut |
-| text \1\r | Escriu "text" + el contingut guardat i una nova línia |
+| \\s\\+ | Cerca un espai o més |
+| \\([0-9a-f]*\\) | Guarda en un buffer un contingut |
+| text \\1\\r | Escriu "text" + el contingut guardat i una nova línia |
 
 Per a moure text (text2, text1    | text3)  a ->  (text1 text2  | | text3)<br />
 <br />
 ```
 %s/\(.*\),\([^)]*\)\s\+\(.*|\)/\2\1 | \3/
+```
+
+### Sed
+
+Per a poder realment buscar salts de línia cal utilitzar:
+```
+sed -i ':a;N;!ba;s/<blablabla>/<blublublu>/g' FITXER
 ```
 
 ### Wireshark
