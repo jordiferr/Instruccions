@@ -51,7 +51,7 @@ alist = [line.rstrip() for line in open('filename.txt')]
 ### Wacom
 
 Per a utilitzar la tarja Wacom a una pantalla (quan n'hi ha 2 d'instal·lades).<br />
-<br />
+
 ```
 xrandr --listactivemonitors
 xsetwacom --list devices	(Apuntar el ID)
@@ -65,7 +65,7 @@ xsetwacom --set "22" MapToOutput HDMI-2
 
 #### Reanomenar fitxers en massa
 
-Instal·lar el paquet <code>mmv<code /><br />
+Instal·lar el paquet <code>mmv<code />
 <br />
 ```
 mmv Un\ nom\ de\ fitxer\ acanviar\*.extensio Un\ nom\ de\ fitxer\ acanviar\#1.mp4
