@@ -63,13 +63,9 @@ xsetwacom --set "22" MapToOutput HDMI-2
 
 # Bash
 
-## Comandes
-
-### Pogrames sueltus
-
 #### Reanomenar fitxers en massa
 
-Instal·lar el paquet <code>mmv<code />
+Instal·lar el paquet <code>mmv</code>
 
 ```
 mmv Un\ nom\ de\ fitxer\ acanviar\*.extensio Un\ nom\ de\ fitxer\ acanviar\#1.mp4
@@ -91,12 +87,10 @@ find <ruta o carpeta> -type f -exec chmod go-rw {} \;
 #### Eliminar fitxer anterior a X data
 
 ```
-find <ruta o carpeta> ! -newermt "2021-12-01 01:00:00" \| xargs rm -rf
+find <ruta o carpeta> ! -newermt "2021-12-01 01:00:00" | xargs rm -rf
 ```
 
 #### Eliminar el contingut d'un fitxer
-
-<br />
 
 | Mitjançant | Comanda |
 | :---     | :---      |
@@ -104,12 +98,17 @@ find <ruta o carpeta> ! -newermt "2021-12-01 01:00:00" \| xargs rm -rf
 | truncate | truncate -s 0 <fitxer> |
 | :> | :> fitxer.txt |
 
-<br />
-
 #### Llegir DOCX al terminal
 
 ```
 unzip -p foo.docx word/document.xml | sed -e 's/<[^>]\{1,\}>//g; s/[^[:print:]]\{1,\}//g'
+```
+
+#### Generar cadenes contrasenyes
+
+(longitud 15)<br />
+```
+cat /dev/urandom | strings | head -n 100 | tr -d '\n"`\\ \t' | head -c 15 && echo || tr -cd '[:alnum:] < /dev/urandom | fold -w 32 | head -n 20'
 ```
 
 #### Comparar hexadecimalment dos fitxers i veure les diferències
@@ -142,18 +141,15 @@ Demanarà la contrasenya. L'escriurem dues vegades.<br />
 ### Recon
 
 #### Informació email
+
 ```
 curl -s emailrep.io/<EMAIL> | jq
 ```
+
 #### Informació IP
+
 ```
 curl -s ipinfo.io/<IP> | jq
-```
-### Generar cadenes contrasenyes
-
-(longitud 15)<br />
-```
-cat /dev/urandom | strings | head -n 100 | tr -d '\n"`\\ \t' | head -c 15 && echo || tr -cd '[:alnum:] < /dev/urandom | fold -w 32 | head -n 20'
 ```
 
 ### QEmu
@@ -196,7 +192,7 @@ PULSE_SINK=virtual_speaker ffmpeg -i <AUDIO.{wav|mp3|ogg}> -f pulse "stream name
 
 #### Encode video amb subtitols (FFMPEG)
 
-(idea de https://askubuntu.com/questions/214199/how-do-i-add-and-or-keep-subtitles-when-converting-video)<br />
+(idea de https://askubuntu.com/questions/214199/how-do-i-add-and-or-keep-subtitles-when-converting-video)
 <br />
 ```
 ffmpeg -i <ORIGEN> -c:v libx264 -c:a mp3 -c:s mov_text <SORTIDA>.mp4
@@ -204,7 +200,7 @@ ffmpeg -i <ORIGEN> -c:v libx264 -c:a mp3 -c:s mov_text <SORTIDA>.mp4
 
 #### Encode video tots els audios i subtitols
 
-(idea de https://superuser.com/questions/940169/having-trouble-understanding-ffmpeg-map-command)<br />
+(idea de https://superuser.com/questions/940169/having-trouble-understanding-ffmpeg-map-command)
 <br />
 ```
 ffmpeg -i <ORIGEN>.mkv -map 0:0 -map 0:1 -map 0:2 -map 0:3 -map 0:4 -map 0:5 -c:v h264 -c:a mp3 -c:s mov_text <SORTIDA>.mp4
@@ -214,7 +210,7 @@ ffmpeg -i <ORIGEN>.mkv -map 0:0 -map 0:1 -map 0:2 -map 0:3 -map 0:4 -map 0:5 -c:
 
 ```
 sudo modprobe v4l2loopback
-v4l2-ctl \-\-list-devices
+v4l2-ctl --list-devices
 ```
 ( cara7.png es una imatge que es mostrarà com si fos la cara a mostrar. Molt útil per a pimeyes.com )
 <br />
@@ -225,7 +221,7 @@ ffmpeg -stream_loop -1 -re -i cara7.png -f v4l2 -vcodec rawvideo -pix_fmt yuv420
 #### Eliminar l'audio en grup
 
 ```
-for i in \*.mp4 ; do ffmpeg -i "$i" -c:v copy -an "nou/${i%.\*}\_NOAUDIO.mp4"; done
+for i in *.mp4 ; do ffmpeg -i "$i" -c:v copy -an "nou/${i%.*}_NOAUDIO.mp4"; done
 ```
 
 ### Squid
@@ -233,34 +229,35 @@ for i in \*.mp4 ; do ffmpeg -i "$i" -c:v copy -an "nou/${i%.\*}\_NOAUDIO.mp4"; d
 (https://wiki.squid-cache.org/ConfigExamples/Intercept/SslBumpExplicit)<br />
 (https://techexpert.tips/squid/install-squid-with-https-ssl-decryption-ubuntu-linux/)<br />
 <br />
-<code>
-./configure \-\-with-default-user=proxy \-\-with-openssl \-\-enable-ssl-crtd<br />
-make<br />
-sudo make install<br />
-<br />
-sudo su<br />
-updatedb<br />
-vim /etc/ssl/openssl.cnf<br />
-<code />
+```
+./configure --with-default-user=proxy --with-openssl --enable-ssl-crtd
+make
+sudo make install
+
+sudo su
+updatedb
+vim /etc/ssl/openssl.cnf
+```
 (Afegir les següents línies al final)<br />
 <br />
-<code>
+```
 [ v3_ca ]
 
 keyUsage = cRLSign, keyCertSign
-<br />
-<br />
-<code />
 ```
-mkdir /usr/local/squid/etc/ssl_cert -p<br />
-chown proxy:proxy /usr/local/squid/etc/ssl_cert -R<br />
-chmod 700 /usr/local/squid/etc/ssl_cert -R<br />
-cd /usr/local/squid/etc/ssl_cert<br />
+
+I executar
+```
+mkdir /usr/local/squid/etc/ssl_cert -p
+chown proxy:proxy /usr/local/squid/etc/ssl_cert -R
+chmod 700 /usr/local/squid/etc/ssl_cert -R
+cd /usr/local/squid/etc/ssl_cert
 ```
 ----
 
 Opció 1 (openssl)
 
+```
 openssl req -new -newkey rsa:2048 -sha256 -days 365 -nodes -x509 -extensions v3_ca -keyout myCA.pem -out myCA.pem
 (Entrar dades:
  US
@@ -272,31 +269,35 @@ openssl req -new -newkey rsa:2048 -sha256 -days 365 -nodes -x509 -extensions v3_
  email@localhost
 )
 openssl x509 -in myCA.pem -outform DER -out myCA.der
+```
 
 ----
 Opció 2 (certool)
 
-certtool \-\-generate-privkey \-\-outfile ca-key.pem
-certtool \-\-generate-self-signed \-\-load-privkey ca-key.pem \-\-outfile myCA.pem
-
+```
+certtool --generate-privkey --outfile ca-key.pem
+certtool --generate-self-signed --load-privkey ca-key.pem --outfile myCA.pem
+```
 ----
 
 (Depenent de com s'hagi configurat a la instalació (\-\-with-openssl o \-\-with-gnutls) utilitzarem un o altre)
+
+```
+Triem openssl (el més extès)
+
+openssl req -new -newkey rsa:2048 -sha256 -days 365 -nodes -x509 -extensions v3_ca -keyout myCA.pem -out myCA.pem
+
+openssl x509 -in myCA.pem -outform DER -out myCA.der
+
+cp myCA.der /home/user/Downloads/
+
+/usr/local/squid/libexec/security_file_certgen -c -s /usr/local/squid/var/logs/ssl_db -M 4MB
+chown proxy:proxy /usr/local/squid/var/logs/ssl_db -R
+
+vim /usr/local/squid/etc/squid.conf
 ```
 
-Triem openssl (el més extès)<br />
-<br />
-openssl req -new -newkey rsa:2048 -sha256 -days 365 -nodes -x509 -extensions v3_ca -keyout myCA.pem -out myCA.pem<br />
-<br />
-openssl x509 -in myCA.pem -outform DER -out myCA.der<br />
-<br />
-cp myCA.der /home/user/Downloads/<br />
-<br />
-/usr/local/squid/libexec/security_file_certgen -c -s /usr/local/squid/var/logs/ssl_db -M 4MB<br />
-chown proxy:proxy /usr/local/squid/var/logs/ssl_db -R<br />
-<br />
-vim /usr/local/squid/etc/squid.conf<br />
-(Afegir les següents línies)<br />
+(Afegir les següents línies)
 
 ```
 acl step1 at_step SslBump1
@@ -315,14 +316,17 @@ http_access allow all
 # Make sure your custom config is befor the <ins>deny all</ins> line
 http_access deny all
 ```
-<br />
-chown -R proxy:proxy /usr/local/squid -R<br />
-/usr/local/squid/sbin/squid -z<br />
-<br />
-/usr/local/squid/sbin/squid -d 10<br />
-<br />
-sudo /usr/local/squid/sbin/./squid<br />
-<br />
+
+Finalment configurar el permisos:
+
+```
+chown -R proxy:proxy /usr/local/squid -R
+/usr/local/squid/sbin/squid -z
+
+/usr/local/squid/sbin/squid -d 10
+
+sudo /usr/local/squid/sbin/./squid
+```
 
 ### OpenSSL
 
@@ -377,9 +381,10 @@ sed -i ':a;N;!ba;s/<blablabla>/<blublublu>/g' FITXER
 ### Wireshark
 
 Filtres interessants per a treure porqueria:<br />
-<br />
-not (ip.addr == 1.1.1.1 or ip.addr == 8.8.4.4 or ip.addr == 8.8.8.8 or ip.addr == 46.24.111.140 or ip.addr == 217.182.72.0/21 or ip.addr == 172.217.0.0/16 or ip.addr == 5.9.124.96/27 or ip.addr == 52.32.0.0/11 or ip.addr == 216.58.192.0/19) and not tcp.dstport == 9090
 
+```
+not (ip.addr == 1.1.1.1 or ip.addr == 8.8.4.4 or ip.addr == 8.8.8.8 or ip.addr == 46.24.111.140 or ip.addr == 217.182.72.0/21 or ip.addr == 172.217.0.0/16 or ip.addr == 5.9.124.96/27 or ip.addr == 52.32.0.0/11 or ip.addr == 216.58.192.0/19) and not tcp.dstport == 9090
+```
 
 ### Comandes variades
 
@@ -401,7 +406,9 @@ ssh-add ~/.ssh/id_ed25519_github
 
 ## SSH X11 forwarding (veure programes grafics com si fos un altre usuari)
 
-ssh -XY <altre usuari\>@localhost <programa que vols executar\>
+```
+ssh -XY <altre usuari\>@localhost <programa que vols executar>
+```
 
 ## Canviar la contrasenya d'una clau
 
@@ -414,13 +421,13 @@ ssh-keygen -p
 ### Canviar la contrasenya d'un fitxer
 
 ```
-ssh-keygen -f ~/.ssh/<fitxer\> -p
+ssh-keygen -f ~/.ssh/<fitxer> -p
 ```
 
 ### Eliminar una contrasenya d'un fitxer
 
 ```
-ssh-keygen -f ~/.ssh/<fitxer\> -p -N ""
+ssh-keygen -f ~/.ssh/<fitxer> -p -N ""
 ```
 
 # GPG2
