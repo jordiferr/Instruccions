@@ -63,10 +63,14 @@ xsetwacom --set "22" MapToOutput HDMI-2
 
 # Bash
 
+## Comandes
+
+### Pogrames sueltus
+
 #### Reanomenar fitxers en massa
 
 Instal·lar el paquet <code>mmv<code />
-<br />
+
 ```
 mmv Un\ nom\ de\ fitxer\ acanviar\*.extensio Un\ nom\ de\ fitxer\ acanviar\#1.mp4
 ```
@@ -115,6 +119,8 @@ cmp -l <fitxer1> <fitxer2> | gawk '{printf "%08X %02X %02X\n", $1, strtonum(0$2)
 meld <(hexdump -C <fitxer1>) <(hexdump -C <fitxer2>)
 ```
 
+## Programes línia comandes
+
 ### 7zip
 
 Comprimir un fitxer amb contrasenya i prevenir que es pugui llistar el contingut
@@ -158,9 +164,9 @@ Iniciar un CD/DVD (Ram 512Mb)<br />
 qemu-system-x86_64 -boot d -cdrom <imatge o /dev/cdrom> -m 512
 ```
 <br />
-<br />
+
 Escanejar un disc dur amb un antivirus (ESET / Kaspersky / Norton / Trend Micro) (Ram 2Gb)<br />
-<br />
+
 ```
 sudo qemu-system-x86_64 -boot d -cdrom <ISO> -drive file=/dev/sdX -m 2048
 ```
