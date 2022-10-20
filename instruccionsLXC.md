@@ -11,7 +11,7 @@ exit
 <br />
 
 ```
-$ lc image list images: `nom de distribució`
+$ lxc image list images: `nom de distribució`
 $ lxc launch images: `nom de la imatge` ( per exemple centos/8 )
 $ lxc stop `nom de la imatge`
 $ lxc move `nom de la imatge` `nou nom`
@@ -56,6 +56,26 @@ ssh master@10.240.165.143
 
 usuari: **master**
 contrasenya: **passwd**
+```
+
+### Passos SSH màquina HOST
+
+Creem una parella de claus<br />
+<br />
+```
+ssh-keygen -t ed25519 -f <DIRECTORI_i_NOM_de_les_CLAUS>
+```
+<br />
+Pujarem les claus a la màquina mitjançant:<br />
+<br />
+```
+ssh-copy-id -i .ssh/<NOM_de_la_CLAU>.pub <USUARI>@<IP_o_NOM_de_la_MAQUINA>
+```
+<br />
+Ens autenticarem a la màquina mitjançant:<br />
+<br />
+```
+ssh <USUARI>@<IP_o_NOM_de_la_MAQUINA>
 ```
 
 ## Segons pasos

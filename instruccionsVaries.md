@@ -46,6 +46,14 @@ sudo apt-get install --download-only <nom_paquet>
 alist = [line.rstrip() for line in open('filename.txt')]
 ```
 
+## Guardar en llista els fitxers d'un directory
+
+```
+from os import listdir
+from os.path import isfile, join
+onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+```
+
 # Instruccions aleatòries
 
 ### Wacom
@@ -350,19 +358,21 @@ sudo /usr/local/squid/sbin/./squid
 | Ordenar segons la tercera columna (-k3) tractant el text com a numèric (n) i a la inversa \(r\) | :%!sort -k3nr |
 | Ressaltar línies duplicades | :syn clear Repeat \| g/^\\(.\*\\)\\n\\ze\\%(.\*\\n\\)\*\\1$/exe 'syn match Repeat "^' . escape(getline('.'), '".\\^$\*[]') . '$"' \| nohlsearch |
 | Eliminar a partir del caràcter : | %norm f:C |
+| Eliminar a partir del regexp fins a final de línia | :g/{pattern}/normal nd$ |
 | Afegir a final de línia, només línies que continguin regex | g/<pattern\>/norm A<caràcter que vols afegir> |
+| Separar en grups de N caràcters | :'<,'>!awk '{gsub(/.{N}/,"& ")}1' file |
 
 Per a reemplaçar text preservant-ne'n alguna part:<br />
 <br />
 ```
-%s/\s\+\([0-9a-f]*\)/text \1\r/g
+%s/\s\+\([0-9a-f]\*\)/text \1\r/g
 ```
 <br />
 
 | Codi | Explicació |
 | :--- | :--- |
 | \\s\\+ | Cerca un espai o més |
-| \\([0-9a-f]*\\) | Guarda en un buffer un contingut |
+| \\([0-9a-f]\*\\) | Guarda en un buffer un contingut |
 | text \\1\\r | Escriu "text" + el contingut guardat i una nova línia |
 
 Per a moure text (text2, text1    | text3)  a ->  (text1 text2  | | text3)<br />

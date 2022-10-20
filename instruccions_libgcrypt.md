@@ -29,4 +29,6 @@ int main(void)
 
 ## Compilació
 
-gcc <codi.c\> -lcrypt <sortida\>
+```
+gcc <codi.c> -lcrypt <sortida>
+```

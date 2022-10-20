@@ -24,7 +24,7 @@ browser.switch_to.window(finestres[1])
 browser.switch_to.window(finestres[1])
 <code />
 <br />
-Acte seguit, indicar al selnium que volem tornar a la pestanya anterior:
+Acte seguit, indicar al selenium que volem tornar a la pestanya anterior:
 <code>
 browser.switch_to.window(finestres[0])
 <code />

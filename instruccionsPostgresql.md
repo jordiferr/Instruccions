@@ -117,3 +117,27 @@ NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
 ORDER BY
   pg_relation_size(C.oid) DESC;
 ```
+
+# Dates
+
+## Data actual
+
+```sql
+SELECT current_date;
+```
+
+## Data i temps actual
+
+```sql
+SELECT NOW();
+```
+
+## Trobar una data (útil per a restar setmanes, dies...)
+
+```sql
+SELECT NOW() - INTERVAL '99 weeks';
+```
+<br />
+```sql
+SELECT NOW() - INTERVAL '1 DAY';
+```
