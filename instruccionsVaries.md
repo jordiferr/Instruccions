@@ -73,7 +73,9 @@ xsetwacom --set "22" MapToOutput HDMI-2
 
 #### Reanomenar fitxers en massa
 
-Instal·lar el paquet <code>mmv</code>
+Instal·lar el paquet <code>mmv</code><br />
+Abans de .extensio s'ha de posar contrabarra.<br />
+Abans de #1 s'ha de posar contrabarra.<br />
 
 ```
 mmv Un\ nom\ de\ fitxer\ acanviar\*.extensio Un\ nom\ de\ fitxer\ acanviar\#1.mp4
@@ -83,6 +85,12 @@ mmv Un\ nom\ de\ fitxer\ acanviar\*.extensio Un\ nom\ de\ fitxer\ acanviar\#1.mp
 
 ```
 printf "COS" | mail -s "SUBJECTE" -F <mail>
+```
+
+#### Cercar fitxers potencialment perillosos (contenen un *constructor*)
+
+```bash
+for i in * ; do if [ -x $i ] && file $i | grep -q "ELF 64-bit" ; then echo "Executable: ${i}" ; rabin2 -ee $i ; echo "" ; fi; done
 ```
 
 #### Canviar permisos
