@@ -1,16 +1,15 @@
 # Primers pasos inexperts
 
-```
+```bash
 apt install lxd lxc
 
 sudo su
 lxd init
-(configurar)
+# (configurar)
 exit
 ```
-<br />
 
-```
+```bash
 $ lxc image list images: `nom de distribució`
 $ lxc launch images: `nom de la imatge` ( per exemple centos/8 )
 $ lxc stop `nom de la imatge`
@@ -26,13 +25,15 @@ Info extreta de [Adictos al trabajo](https://www.adictosaltrabajo.com/2018/07/11
 
 ## Crear imatge i primers pasos
 
-Descarreguem la imatge: <br />
+Descarreguem la imatge:
 
-```lxc launch ubuntu:20.04 proxy```
+```bash
+lxc launch ubuntu:20.04 proxy
+```
 
 Executem la imatge i configurem el ssh
 
-```
+```bash
 lxc exec proxy bash
 root@:~# useradd -m root
 useradd: user 'root' already exists
@@ -51,7 +52,7 @@ root@:~# exit
 
 Entrem mitjançant ssh:
 
-```
+```bash
 ssh master@10.240.165.143
 
 usuari: **master**
@@ -60,21 +61,18 @@ contrasenya: **passwd**
 
 ### Passos SSH màquina HOST
 
-Creem una parella de claus<br />
-<br />
-```
+Creem una parella de claus
+```bash
 ssh-keygen -t ed25519 -f <DIRECTORI_i_NOM_de_les_CLAUS>
 ```
-<br />
-Pujarem les claus a la màquina mitjançant:<br />
-<br />
-```
+
+Pujarem les claus a la màquina mitjançant:
+```bash
 ssh-copy-id -i .ssh/<NOM_de_la_CLAU>.pub <USUARI>@<IP_o_NOM_de_la_MAQUINA>
 ```
-<br />
-Ens autenticarem a la màquina mitjançant:<br />
-<br />
-```
+
+Ens autenticarem a la màquina mitjançant:
+```bash
 ssh <USUARI>@<IP_o_NOM_de_la_MAQUINA>
 ```
 
@@ -86,13 +84,13 @@ Descarreguem la configuració del vpn i (continuarà...)
 
 # Descarregar i crear màquina virtual
 
-```
+```bash
 lxc launch images:opensuse/tumbleweed/desktop-kde --vm --console=vga
 ```
 
 Això permet crear una màquina virtual que podem engegar-la amb:
 
-```
+```bash
 lxc start <nom> --console=vga
 ```
 

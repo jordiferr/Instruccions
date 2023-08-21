@@ -14,10 +14,10 @@ sudo apt-get install --download-only <nom_paquet>
 
 | Què fa? | Funció |
 | :---    | :---   |
-| Ajuntar múltiples pdf:| qpdf \-\-empty \-\-pages PDF_1.pdf PDF_2.pdf ... PDF_N.pdf \-\- FINAL.pdf |
-| Extreure pàgines d'un pdf: | qpdf \-\-empty \-\-pages INPUT.pdf nºinici-nºfinal \-\- OUTPUT.pdf |
-| Eliminar Streams (util per eliminar codi no desitjat) | qpdf \-\-object-streams=disable -qdf INPUT.pdf OUTPUT.pdf |
-| linearitzar PDF: | qpdf \-\-linearize INPUT.pdf OUTPUT.pdf |
+| Ajuntar múltiples pdf:| qpdf --empty --pages PDF_1.pdf PDF_2.pdf ... PDF_N.pdf -- FINAL.pdf |
+| Extreure pàgines d'un pdf: | qpdf --empty --pages INPUT.pdf nºinici-nºfinal -- OUTPUT.pdf |
+| Eliminar Streams (util per eliminar codi no desitjat) | qpdf --object-streams=disable -qdf INPUT.pdf OUTPUT.pdf |
+| linearitzar PDF: | qpdf --linearize INPUT.pdf OUTPUT.pdf |
 | Reparar PDF | qpdf INPUT.pdf OUTPUT.pdf |
 
 
@@ -79,6 +79,14 @@ Abans de #1 s'ha de posar contrabarra.<br />
 
 ```bash
 mmv Un\ nom\ de\ fitxer\ acanviar\*.extensio Un\ nom\ de\ fitxer\ acanviar\#1.mp4
+```
+
+#### Canviar els noms a minúscules en massa
+
+Ens col·loquem a una carpeta i executem:
+
+```bash
+for f in `find`; do mv -v "$f" "`echo $f | tr '[A-Z]' '[a-z]'`"; done
 ```
 
 #### Enviar mail per línia de comandes
@@ -220,6 +228,12 @@ ffmpeg -i <ORIGEN> -c:v libx264 -c:a mp3 -c:s mov_text <SORTIDA>.mp4
 <br />
 ```bash
 ffmpeg -i <ORIGEN>.mkv -map 0:0 -map 0:1 -map 0:2 -map 0:3 -map 0:4 -map 0:5 -c:v h264 -c:a mp3 -c:s mov_text <SORTIDA>.mp4
+```
+
+#### Resize video
+
+```bash
+ffmpeg -i <ORIGEN> -c:v libx265 -an -vf scale=1920:-1 <SORTIDA>.mkv
 ```
 
 #### Crear camera video /dev/video0 falsa ( fake /dev/video0 )
@@ -369,6 +383,7 @@ sudo /usr/local/squid/sbin/./squid
 | Eliminar a partir del regexp fins a final de línia | :g/{pattern}/normal nd$ |
 | Afegir a final de línia, només línies que continguin regex | g/<pattern\>/norm A<caràcter que vols afegir> |
 | Separar en grups de N caràcters | :'<,'>!awk '{gsub(/.{N}/,"& ")}1' file |
+| Duplicar la línia al final de cada línia | ^\\(\.\*\\)$ |
 
 Per a reemplaçar text preservant-ne'n alguna part:<br />
 <br />

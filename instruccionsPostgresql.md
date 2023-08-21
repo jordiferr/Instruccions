@@ -2,22 +2,39 @@
 
 ## Acces com a ***postgres***
 
-$ sudo su - postgres<br />
+```bash
+$ sudo su - postgres
 $ psql -U postgres
+postgres=# 
+```
+
+i entrar seguint els [primers pasos](#Primers-pasos-(entrar-com-**postgres**))
 
 ## Copies de seguretat
 
-$ sudo su - postgres<br />
+```bash
+$ sudo su - postgres
 $ pg_dumpall > <fitxer>
+```
 
 ## Actualització Database
 
-(Primer realitzar [còpies de seguretat](#Copies-de-seguretat))<br />
-$ sudo pg_ctlcluster <versioAntiga> main stop<br />
-$ sudo pg_dropcluster <versioNova> main --stop<br />
-$ sudo pg_upgradecluster -v <versioNova> <versioAntiga> main<br />
-$ sudo pg_ctlcluster <versioNova> main start<br />
+(Primer realitzar [còpies de seguretat](#Copies-de-seguretat))
+```bash
+$ sudo pg_ctlcluster <versioAntiga> main stop
+$ sudo pg_dropcluster <versioNova> main --stop
+$ sudo pg_upgradecluster -v <versioNova> <versioAntiga> main
+$ sudo pg_ctlcluster <versioNova> main start
+```
 
+## Errors coneguts i solucions
+
+Si apareix aquest error:
+```sql
+ERROR:  could not access file "$libdir/btree_gist":
+```
+
+La solució consisteix a instal·lar el paquet <code>postgresql<VERSIO\>-contrib</code>
 
 ## Canviar editor de text
 
@@ -29,7 +46,7 @@ Per canviar l'editor de text<br />
 ## Primers pasos (entrar com **postgres**)
 
 ```sql
-CREATE ROLE < nom_del_usuari /> WITH login;
+CREATE ROLE < nom_del_usuari /> LOGIN PASSWORD '< contrassenya />';
 CREATE DATABASE < nom_base_de_dades /> WITH OWNER < nom_del_usuari />;
 ```
 
@@ -55,6 +72,13 @@ Un cop creada la extensió dins la base de dades podrem utilitzar la comanda **s
 ```sql
 DELETE FROM **<taula>** WHERE id = **<num>**;
 ALTER SEQUENCE **<taula>\_id\_seq** RESTART WITH **<num_desitjat>**;
+```
+
+## Eliminar funcions i triggers associats
+
+```sql
+DROP TRIGGER <nom_trigger> ON <taula_on_esta_el_trigger> ;
+DROP FUNCTION IF EXISTS <nom_de_la_funció_que_cridava_el_trigger>;
 ```
 
 ## PROCEDURE vs FUNCTION
