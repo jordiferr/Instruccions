@@ -16,9 +16,16 @@ sudo apt-get install --download-only <nom_paquet>
 | :---    | :---   |
 | Ajuntar múltiples pdf:| qpdf --empty --pages PDF_1.pdf PDF_2.pdf ... PDF_N.pdf -- FINAL.pdf |
 | Extreure pàgines d'un pdf: | qpdf --empty --pages INPUT.pdf nºinici-nºfinal -- OUTPUT.pdf |
+| Eliminar pàgines d'un pdf: | qpdf INPUT.pdf --pages . nºinici-pagina_n,pagina_n+3-r1 -- OUTPUT.pdf |
 | Eliminar Streams (util per eliminar codi no desitjat) | qpdf --object-streams=disable -qdf INPUT.pdf OUTPUT.pdf |
 | linearitzar PDF: | qpdf --linearize INPUT.pdf OUTPUT.pdf |
 | Reparar PDF | qpdf INPUT.pdf OUTPUT.pdf |
+
+### gs ( GhostScript )
+
+| Què fa? | Funció |
+| :---    | :---   |
+| Eliminar les signatures criptogràfiques del PDF | gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=%stdout% -c .setpdfwrite -f locked.pdf > unlocked.pdf |
 
 
 ### Okular
@@ -188,7 +195,7 @@ qemu-system-x86_64 -boot d -cdrom <imatge o /dev/cdrom> -m 512
 Escanejar un disc dur amb un antivirus (ESET / Kaspersky / Norton / Trend Micro) (Ram 2Gb)<br />
 
 ```bash
-sudo qemu-system-x86_64 -boot d -cdrom <ISO> -drive file=/dev/sdX -m 2048
+sudo -E qemu-system-x86_64 -boot d -cdrom <ISO> -drive file=/dev/sdX,format=raw -m 2048
 ```
 
 ### FFmpeg
@@ -196,7 +203,7 @@ sudo qemu-system-x86_64 -boot d -cdrom <ISO> -drive file=/dev/sdX -m 2048
 #### Capturar pantalla per vídeo (FFMPEG)
 
 ```bash
-ffmpeg -y -f alsa -ac 2 -i default -acodec pcm_s16le -f x11grab -framerate 30 -video_size 1920x1080 -i :0.0+0,0 -c:v libx264 -pix_fmt yuv420p -qp 0 -preset ultrafast output.mkv
+ffmpeg -y -f alsa -ac 2 -i default -acodec pcm_s16le -f x11grab -framerate 60 -video_size 1920x1080 -i :0.0+0,0 -c:v libx265 -pix_fmt yuv420p -qp 0 -preset ultrafast output.mkv
 ```
 (i recordar activar el dispositiu de captura de so a la icona del costat del rellotge - Monitor de Audio intern Estèreo analògic- )
 
@@ -384,6 +391,7 @@ sudo /usr/local/squid/sbin/./squid
 | Afegir a final de línia, només línies que continguin regex | g/<pattern\>/norm A<caràcter que vols afegir> |
 | Separar en grups de N caràcters | :'<,'>!awk '{gsub(/.{N}/,"& ")}1' file |
 | Duplicar la línia al final de cada línia | ^\\(\.\*\\)$ |
+| Comptar quantes vegades apareix una paraula a tot el text | :%s///gn |
 
 Per a reemplaçar text preservant-ne'n alguna part:<br />
 <br />

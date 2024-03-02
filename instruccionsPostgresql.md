@@ -17,7 +17,7 @@ $ sudo su - postgres
 $ pg_dumpall > <fitxer>
 ```
 
-## Actualització Database
+## Actualització Database (només útil a Ubuntu i derivats)
 
 (Primer realitzar [còpies de seguretat](#Copies-de-seguretat))
 ```bash
@@ -48,6 +48,12 @@ Per canviar l'editor de text<br />
 ```sql
 CREATE ROLE < nom_del_usuari /> LOGIN PASSWORD '< contrassenya />';
 CREATE DATABASE < nom_base_de_dades /> WITH OWNER < nom_del_usuari />;
+```
+
+## Copies de seguretat del directori
+
+```bash
+pg_basebackup -P -h 127.0.0.1 -U <usuari> -p 5432 -D <directori complet> -Ft -z -Xs
 ```
 
 ## Selecció dades en funció de la data
@@ -125,6 +131,8 @@ CALL nomProcedure();
 
 ## Funció per a veure el que consumeix cada taula
 
+### Forma 1
+
 ```sql
 SELECT
   nspname || '.' || relname as "relation",
@@ -140,6 +148,33 @@ WHERE
 NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
 ORDER BY
   pg_relation_size(C.oid) DESC;
+```
+
+### Forma 2
+
+```sql
+SELECT pg_size_pretty(pg_database_size('Database Name')) as tamany;
+```
+
+## Funció només útil per a cercar una compra dins la taula *cistell_compra*
+
+```sql
+DO $$
+DECLARE
+    id_quantitats integer[];
+    id_cistell_compra integer[];
+    cistell_compra_list text;
+BEGIN
+    EXECUTE 'SELECT ARRAY(SELECT id FROM quantitat WHERE fkey_historicpreus IN (SELECT id FROM historicpreus WHERE fkey_producte = (SELECT id FROM producte WHERE descripcio ~* ''alguna_cosa_a_cercar'')))' INTO id_quantitats;
+
+    EXECUTE 'SELECT array_agg(cc.id) FROM cistell_compra cc, jsonb_each_text(to_jsonb(cc)) kv WHERE kv.key LIKE ''fkey_quantitat_%'' AND kv.value::text = ANY ($1::text[])'
+    INTO id_cistell_compra
+    USING id_quantitats;
+
+    cistell_compra_list := array_to_string(id_cistell_compra, ', ');
+    RAISE NOTICE 'IDs de cistell de compra: %', cistell_compra_list;
+END;
+$$;
 ```
 
 # Dates

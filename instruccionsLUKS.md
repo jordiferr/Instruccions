@@ -45,3 +45,37 @@ Obrir mitjançant el navegador de fitxers gràfic i al **primer ús** canviar el
 ```sh
 # cryptsetup luksDump /dev/sda2
 ```
+
+# Canviar el nom un cop fetes totes les operacions
+```sh
+# cryptsetup config /dev/sdX --label <nom a mostrar>
+```
+
+# Obrir automàticament el disc només engengar
+
+1. Generar un fitxer com a clau
+	```sh
+	openssl genrsa -out FITXER_RSA 4096
+	```
+	<br />
+	o
+	<br />
+	```sh
+	dd if=/dev/urandom of=FITXER_CLAU bs=32 count=1
+	```
+2. Afegir la clau al disposistiu LUKS
+	```sh
+	sudo cryptsetup luksAddKey /dev/sdX <camí on està el fitxer de clau>
+	```
+3. Utilitzar la comanda per aconseguir el UUID
+	```sh
+	lsblk
+	```
+4. Editar el fitxer /etc/crypttab afegint la següent línia
+	```sh
+	luks-123a45b6-bc78-091d-e2f3-ab4c5d6789d0 UUID=123a45b6-bc78-091d-e2f3-ab4c5d6789d0 <camí i fitxer amb la clau> luks
+	```
+5. Editar el fitxer /etc/fstab afegint la línia següent
+	```sh
+	/dev/mapper/luks-123a45b6-bc78-091d-e2f3-ab4c5d6789d0 <carpeta on es muntara> ext4 defaults 0 0
+	```
