@@ -98,3 +98,14 @@ lxc start <nom> --console=vga
 
 Pàgina [Simos.info](https://blog.simos.info/how-to-use-the-lxd-proxy-device-to-map-ports-between-the-host-and-the-containers/) té més informació sobre LXC.<br />
 Pàgina de [Linux Containers](https://discuss.linuxcontainers.org/t/lxd-4-4-has-been-released/8574) explicant sobre <code>--console=vga</code>
+
+
+# Grok
+
+sudo incus admin init
+
+sudo incus launch images:debian/12 <NOM>
+
+sudo incus exec <NOM> -- bash
+
+

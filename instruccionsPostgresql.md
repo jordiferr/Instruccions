@@ -1,6 +1,6 @@
 # PostgreSQL
 
-## Acces com a ***postgres***
+## Accés com a ***postgres***
 
 ```bash
 $ sudo su - postgres
@@ -30,15 +30,36 @@ $ sudo pg_ctlcluster <versioNova> main start
 ## Errors coneguts i solucions
 
 Si apareix aquest error:
-```sql
+
+```bash
 ERROR:  could not access file "$libdir/btree_gist":
 ```
 
-La solució consisteix a instal·lar el paquet <code>postgresql<VERSIO\>-contrib</code>
+La solució consisteix a instal·lar el paquet <code>postgresql\<VERSIO>-contrib</code>
+
+### Si una base de dades no es deixa eliminar i només ets l'únic usuari connectat
+
+1. Accedeix seguint [Accés com a ***postgres***](##Accés com a ***postgres***)
+2. Dins el postgres, i com a usuari <code>postgres</code>
+   1. Escriure:
+```sql
+ALTER DATABASE <nom_base_de_dades> ALLOW_CONNECTIONS = off;
+```
+    2. I després:
+```sql
+SELECT pg_terminate_backend(pid)
+FROM pg_stat_activity
+WHERE datname = '<nom_base_de_dades>';
+```
+    3. I finalment:
+```sql
+DROP DATABASE IF EXISTS <nom_base_de_dades>;
+```
 
 ## Canviar editor de text
 
-Per canviar l'editor de text<br />
+Per canviar l'editor de text
+
 ```sql
 \setenv PSQL_EDITOR "/usr/bin/vim"
 ```
@@ -46,8 +67,8 @@ Per canviar l'editor de text<br />
 ## Primers pasos (entrar com **postgres**)
 
 ```sql
-CREATE ROLE < nom_del_usuari /> LOGIN PASSWORD '< contrassenya />';
-CREATE DATABASE < nom_base_de_dades /> WITH OWNER < nom_del_usuari />;
+CREATE ROLE <nom_del_usuari> LOGIN PASSWORD '<contrassenya>';
+CREATE DATABASE <nom_base_de_dades> WITH OWNER <nom_del_usuari>;
 ```
 
 ## Copies de seguretat del directori
@@ -59,18 +80,23 @@ pg_basebackup -P -h 127.0.0.1 -U <usuari> -p 5432 -D <directori complet> -Ft -z 
 ## Selecció dades en funció de la data
 
 1. Entrar com a superusuari
-2. \c {BASE de DADES}
+2. \\c {BASE de DADES}
 3. CREATE EXTENSION btree_gist(**{COLUMNA on aplicar el filtre}**);
 4. CREATE INDEX ON <taula> USING gist(**{COLUMNA on aplica el filtre}**);
 5. SELECT <bla, bla> FROM <taula> ORDER BY (SELECT NOW()) <-> **{COLUMNA on aplica el filtre}**;
 
 ## Crear extensió
 
-CREATE EXTENSION <nom_extensio\>;
+```sql
+CREATE EXTENSION <nom_extensio>;
+```
 
 ### Extensió per a poder utilitzar **sort**
 
-CREATE EXTENSION intarray;<br />
+```sql
+CREATE EXTENSION intarray;
+```
+
 Un cop creada la extensió dins la base de dades podrem utilitzar la comanda **sort()**
 
 ## Eliminar i resetejar id

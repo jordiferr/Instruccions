@@ -85,7 +85,13 @@ Abans de .extensio s'ha de posar contrabarra.<br />
 Abans de #1 s'ha de posar contrabarra.<br />
 
 ```bash
-mmv Un\ nom\ de\ fitxer\ acanviar\*.extensio Un\ nom\ de\ fitxer\ acanviar\#1.mp4
+mmv Un\ nom\ de\ fitxer\ acanviar\ \*.extensio Un\ nom\ de\ fitxer\ acanviar\ \#1.mp4
+```
+
+#### Moure fitxers d'una carpeta a una altra
+
+```bash
+for file in Baixades/Nom\ NOM2*; do identificador=$(echo $file | awk '{print $NF}' FS="/"); identificador=$(echo $identificador | awk '{print $NF}' FS=" "); if [ ! -f "/run/media/jordi/copies_luks_1/Imatges_nou/CARPETA/Nom NOM2/$identificador" ]; then mv "$file" "/run/media/jordi/copies_luks_1/Imatges_nou/CARPETA/Nom NOM2/$identificador"; else echo "El fitxer $identificador ja existeix a carpeta_2"; fi; done
 ```
 
 #### Canviar els noms a minúscules en massa
@@ -392,6 +398,7 @@ sudo /usr/local/squid/sbin/./squid
 | Separar en grups de N caràcters | :'<,'>!awk '{gsub(/.{N}/,"& ")}1' file |
 | Duplicar la línia al final de cada línia | ^\\(\.\*\\)$ |
 | Comptar quantes vegades apareix una paraula a tot el text | :%s///gn |
+| Convertir segons epoch a una data | :'<,'>!xargs -I{} date -d @{} |
 
 Per a reemplaçar text preservant-ne'n alguna part:<br />
 <br />
@@ -411,6 +418,11 @@ Per a moure text (text2, text1    | text3)  a ->  (text1 text2  | | text3)<br />
 ```bash
 %s/\(.*\),\([^)]*\)\s\+\(.*|\)/\2\1 | \3/
 ```
+<br />
+Per a eliminar linies entre dos paraules clau:
+```bash
+%s/PARAULA_CLAU1\zs\_.\{-}\zePARAULA_CLAU2/\r\r/g
+```
 
 ### Sed
 
@@ -426,6 +438,13 @@ Filtres interessants per a treure porqueria:<br />
 ```bash
 not (ip.addr == 1.1.1.1 or ip.addr == 8.8.4.4 or ip.addr == 8.8.8.8 or ip.addr == 46.24.111.140 or ip.addr == 217.182.72.0/21 or ip.addr == 172.217.0.0/16 or ip.addr == 5.9.124.96/27 or ip.addr == 52.32.0.0/11 or ip.addr == 216.58.192.0/19) and not tcp.dstport == 9090
 ```
+<br />
+
+Poder veure el Server Name Indicator (a on es navega tot i que el tràfic estigui xifrat):<br />
+
+```bash
+tls.handshake.extension.type == 0
+```
 
 ### Comandes variades
 
@@ -437,6 +456,8 @@ not (ip.addr == 1.1.1.1 or ip.addr == 8.8.4.4 or ip.addr == 8.8.8.8 or ip.addr =
 | hdparm -r 0 /dev/sdk1 | Posa a 0 el mode de només lectura |
 | fdisk -l /dev/sdN | Eina per a visualitzar/manipular les particions.  |
 | gdisk -l /dev/sdN | Eina per a visualitzar/manipular les particions que bàsicament utilitzen GPT |
+| erl -noshell -s file\_checker main arguments | Executa, sense necessitat d'engegar erlang a línia de comades, el fitxer "file\_checker.erl" la funció "main" |
+| pandoc -V geometry:"top=1.5cm, bottom=1.5cm, left=2cm, right=2cm" curriculum.md -o curriculum.pdf | Genera un PDF del curricuum amb marges de 1.5cm i 2.5cm |
 
 # SSH
 
@@ -479,4 +500,28 @@ ssh-keygen -f ~/.ssh/<fitxer> -p -N ""
 
 ```bash
 dd if=/dev/urandom bs=512 count=64 | gpg2 -v --cipher-algo aes256 --digest-algo sha512 -c -a > clauGPG_aleatoria.asc
+```
+
+# Ports (redireccions i demés)
+
+## socat
+
+```bash
+sudo socat tcp-listen:<port_public>,reuseaddr,fork tcp:localhost:<ssh>
+```
+
+# Gsocket
+
+## Transferir fitxers entre dos ordinadors
+
+Al server:
+
+```bash
+gs-netcat -s "SECRET" -l < /ruta/al/fitxer.tar.gz
+```
+
+Al normal:
+
+```bash
+gs-netcat -s "SECRET" >> carpeta.tar.xz
 ```
