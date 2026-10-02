@@ -213,11 +213,37 @@ ffmpeg -y -f alsa -ac 2 -i default -acodec pcm_s16le -f x11grab -framerate 60 -v
 ```
 (i recordar activar el dispositiu de captura de so a la icona del costat del rellotge - Monitor de Audio intern Estèreo analògic- )
 
+
 #### Capturar audio (FFMPEG)
 
 ```bash
-ffmpeg -f alsa -ac 2 -i default -acodec pcm_s16le <fitxer_a_guardar>.wav
+(NO FUNCIONA) ffmpeg -f alsa -ac 2 -i default -acodec pcm_s16le <fitxer_a_guardar>.wav
 ```
+
+Nou funcionament amb PulseAudio
+```bash
+ffmpeg -f pulse -i alsa_input.usb-046d_0825_FDB71320-02.mono-fallback -ac 2 -acodec pcm_s16le Classe_MODUL_1_20260930_part1.wav
+```
+
+Capturar audio de chromium:
+```bash
+pactl load-module module-null-sink sink_name=chromium_capture sink_properties=device.description=Chromium_Capture
+pactl load-module module-loopback source=chromium_capture.monitor
+
+ffmpeg -f pulse -i chromium_capture.monitor -ac 2 -ar 48000 -c:a pcm_s16le Classe_MODUL_1_20260930_part1.wav
+```
+
+I després per aturar la gravació:
+```bash
+Crtl + c
+```
+
+i fer:
+```bash
+pactl unload-module module-loopback
+pactl unload-module module-null-sink
+```
+
 
 #### Enviar cançó o audio a virtual mic (audiotag, soundhound, midomi, shazam...)
 
@@ -247,6 +273,12 @@ ffmpeg -i <ORIGEN>.mkv -map 0:0 -map 0:1 -map 0:2 -map 0:3 -map 0:4 -map 0:5 -c:
 
 ```bash
 ffmpeg -i <ORIGEN> -c:v libx265 -an -vf scale=1920:-1 <SORTIDA>.mkv
+```
+
+#### Resize video i canviar tonalitat menys grisos
+
+```bash
+ffmpeg -i <video> -vf "zscale=t=linear:npl=100,format=gbrpf32le,tonemap=tonemap=hable:desat=0,zscale=w=1920:h=1080:p=bt709:t=bt709:m=bt709:r=tv,format=yuv420p" -c:v libx265 -preset medium -crf 18 -pix_fmt yuv420p -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709 -field_order progressive -c:a libopus -ac 6 <sortida>
 ```
 
 #### Crear camera video /dev/video0 falsa ( fake /dev/video0 )
@@ -457,7 +489,7 @@ tls.handshake.extension.type == 0
 | fdisk -l /dev/sdN | Eina per a visualitzar/manipular les particions.  |
 | gdisk -l /dev/sdN | Eina per a visualitzar/manipular les particions que bàsicament utilitzen GPT |
 | erl -noshell -s file\_checker main arguments | Executa, sense necessitat d'engegar erlang a línia de comades, el fitxer "file\_checker.erl" la funció "main" |
-| pandoc -V geometry:"top=1.5cm, bottom=1.5cm, left=2cm, right=2cm" curriculum.md -o curriculum.pdf | Genera un PDF del curricuum amb marges de 1.5cm i 2.5cm |
+| pandoc -V geometry:"top=1.5cm, bottom=1.5cm, left=2cm, right=2cm" -V pagestyle=empty curriculum.md -o curriculum.pdf | Genera un PDF del curricuum amb marges de 1.5cm i 2.5cm |
 
 # SSH
 
